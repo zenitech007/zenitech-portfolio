@@ -45,7 +45,7 @@ export default function HomePage() {
           className="text-5xl md:text-7xl lg:text-8xl font-extrabold max-w-5xl leading-[1.1] tracking-tight text-zinc-100"
         >
           Building modern
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
+          <span className="text-transparent bg-clip-text bg-linear-to-r from-emerald-400 to-cyan-400">
             {" "}AI powered web apps.
           </span>
         </motion.h1>
@@ -98,6 +98,7 @@ export default function HomePage() {
             <SpotlightCard>
               <ProjectCard
                 title="Amelia AI Health Assistant"
+                liveLink="https://amelia-tan.vercel.app/"
                 techStack={["Next.js", "Python", "Supabase", "Prisma", "Localization"]}
                 challenge="Patients need accessible, personalized medical guidance in their native dialects, alongside proactive health tracking without navigating clunky medical portals."
                 solution="Engineered a context-aware AI that tailors medical advice based on custom user health profiles. Integrated a real-time health monitor, automated notifications, and fully localized the platform for Igbo, Yoruba, Hausa, and Pidgin."
