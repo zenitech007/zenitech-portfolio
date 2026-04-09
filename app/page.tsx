@@ -27,8 +27,12 @@ export default function HomePage() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 py-32 md:py-40">
-        <motion.div 
+      {/* Adjusted padding here: 
+        pt-16 md:pt-24 brings it closer to the header
+        pb-32 md:pb-40 keeps the spacing below it intact 
+      */}
+      <section className="relative z-10 max-w-7xl mx-auto px-6 pt-16 pb-32 md:pt-24 md:pb-40">
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -56,8 +60,8 @@ export default function HomePage() {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="mt-8 text-lg md:text-xl text-zinc-400 max-w-2xl leading-relaxed"
         >
-          Full-stack developer and founder of ZeniTech, specializing in AI applications, 
-          scalable SaaS platforms, and high-performance web systems.
+          Frontend Developer, UI/UX Designer, and AI integration specialist.
+          Founder of ZeniTech, specializing in scalable SaaS platforms and high-performance web systems.
         </motion.p>
 
         <motion.div
@@ -89,7 +93,8 @@ export default function HomePage() {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          
+
+          {/* Project 1: Aura Skincare */}
           <motion.div
             initial={{ opacity: 0, y: 80 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -97,12 +102,12 @@ export default function HomePage() {
           >
             <SpotlightCard>
               <ProjectCard
-                title="Amelia AI Health Assistant"
-                liveLink="https://amelia-tan.vercel.app/"
-                techStack={["Next.js", "Python", "Supabase", "Prisma", "Localization"]}
-                challenge="Patients need accessible, personalized medical guidance in their native dialects, alongside proactive health tracking without navigating clunky medical portals."
-                solution="Engineered a context-aware AI that tailors medical advice based on custom user health profiles. Integrated a real-time health monitor, automated notifications, and fully localized the platform for Igbo, Yoruba, Hausa, and Pidgin."
-                impact="Delivered a highly accessible, culturally tailored health platform providing proactive, personalized medical support."
+                title="Aura Skincare E-Commerce Platform"
+                liveLink="https://skincare-landing-seven.vercel.app/"
+                techStack={["Next.js", "TypeScript", "Tailwind CSS v4", "Framer Motion", "Custom UI/UX"]}
+                challenge="A premium botanical skincare brand needed a high-end digital storefront to establish its identity in the competitive 'clean beauty' market. The goal was to move beyond generic templates and create a highly immersive, trust-building web experience that visually communicates the brand’s pure, organic nature while seamlessly guiding users toward product exploration and conversion."
+                solution="Engineered a custom, highly responsive e-commerce landing page from scratch leveraging Next.js and TypeScript. Implemented Tailwind CSS v4 to establish a luxurious, modern color palette and typography system. To elevate the user experience, I integrated Framer Motion, designing buttery-smooth scroll animations, dynamic asymmetrical grids, and an infinite-looping testimonial ticker. The architecture was built completely modularly, laying a scalable foundation for future product pages, blog routing, and full checkout integration."
+                impact="Delivered a visually striking, conversion-optimized storefront foundation that instantly establishes premium brand credibility. The modern, component-driven architecture ensures lightning-fast performance and provides a seamless, scalable pathway for the brand's upcoming full e-commerce launch."
               />
             </SpotlightCard>
           </motion.div>
@@ -112,6 +117,60 @@ export default function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.15 }}
+          >
+            <SpotlightCard>
+              <ProjectCard
+                title="SWITCH Architecture Portfolio"
+                liveLink="https://switch-architect.vercel.app/"
+                techStack={["Next.js", "TypeScript", "Tailwind CSS", "Custom Blog Engine", "UI/UX Design", "SEO Optimized"]}
+                challenge="Standard architectural portfolios often look like static PDF resumes. The goal was to build a premium, high-tech digital presence for an Architectural Engineer that didn't just display past work, but actively positioned them as an industry authority in modern structure and AI workflows."
+                solution="Engineered a highly immersive web platform from scratch using Next.js and TypeScript, styled as a secure 'Operative Dossier.' Crafted a custom UI featuring cinematic video backgrounds, glassmorphism, and staggered animations. Built a dynamic 'Field Reports' markdown blog and a dedicated 'AI Training Hub' designed to sell specialized consulting sessions and masterclasses."
+                impact="Transformed a basic digital resume into a revenue-generating tech platform. The high-end dark mode aesthetic establishes immediate credibility, while the built-in direct WhatsApp routing streamlines high-ticket client acquisition."
+              />
+            </SpotlightCard>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 80 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+          >
+            <SpotlightCard>
+              <ProjectCard
+                title="Social-UI Portfolio Template"
+                liveLink="https://arch-portfolio-eight.vercel.app/"
+                techStack={["Next.js", "Framer Motion", "Tailwind CSS", "React Three Fiber"]}
+                challenge="Standard developer portfolios often sacrifice intuitive navigation for flashy, overly complex designs, leaving potential clients confused and leading to high bounce rates and lost leads."
+                solution="Architected a premium portfolio template that maps high-end SaaS aesthetics—like frosted glassmorphism and 3D WebGL backgrounds—onto a universally familiar social media profile layout. Integrated dynamic, swipeable case-study galleries and engineered a custom interactive project estimator to capture leads directly on the page."
+                impact="Delivered a plug-and-play, conversion-ready template that instantly builds user trust through a familiar UX, while simultaneously demonstrating top-tier frontend engineering and interactive UI/UX design."
+              />
+            </SpotlightCard>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 80 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.45 }}
+          >
+            <SpotlightCard>
+              <ProjectCard
+                title="EchoPix"
+                liveLink="https://echopix.vercel.app/"
+                techStack={["Next.js", "Tailwind CSS", "AI Integration"]}
+                challenge="Learners and professionals often lack the time to manually condense lengthy documents, notes, and images into effective study materials. Traditional study prep is incredibly time-consuming, leading to inefficient learning and information overload."
+                solution="Architected an AI-powered educational platform featuring an AI Study Deck that instantly generates interactive flashcards from any uploaded text or document. Built an integrated Audio Studio that seamlessly transforms static notes and images into high-quality, listenable audio summaries for on-the-go learning."
+                impact="Delivered a multimodal, high-performance SaaS utility that drastically reduces study preparation time. By catering to both auditory and visual learning styles, the application transforms passive reading into an engaging and highly accessible learning experience."
+              />
+            </SpotlightCard>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 80 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.6 }}
           >
             <SpotlightCard>
               <ProjectCard
@@ -129,7 +188,7 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 80 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
+            transition={{ delay: 0.75 }}
           >
             <SpotlightCard>
               <ProjectCard
@@ -156,14 +215,14 @@ export default function HomePage() {
             Whether you need an enterprise AI application, a secure utility tool, or a high-converting e-commerce storefront, ZeniTech has you covered. Let's discuss your next project.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <a 
-              href="mailto:zenitech007@gmail.com" 
+            <a
+              href="mailto:zenitech007@gmail.com"
               className="px-8 py-3.5 font-semibold text-zinc-900 bg-emerald-400 rounded-full hover:bg-emerald-300 transition-colors shadow-[0_0_15px_rgba(52,211,153,0.2)]"
             >
               Email Me
             </a>
-            <a 
-              href="https://wa.me/2348102203238" 
+            <a
+              href="https://wa.me/2348102203238"
               target="_blank"
               rel="noopener noreferrer"
               className="px-8 py-3.5 font-semibold text-zinc-100 border border-zinc-700 rounded-full hover:bg-zinc-800 transition-colors"
