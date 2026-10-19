@@ -14,8 +14,8 @@
   --color-brown: #4B2E25;
   --color-brown-soft: #6B4A3E;
 
-  --font-heading: var(--font-heading), system-ui, sans-serif;
-  --font-body: var(--font-body), system-ui, sans-serif;
+  --font-heading: var(--font-fredoka), 'Fredoka', system-ui, sans-serif;
+  --font-body: var(--font-nunito), 'Nunito', system-ui, sans-serif;
 }
 
 body {
@@ -291,7 +291,7 @@ h1, h2, h3, h4, h5, h6 {
 .clay-emboss-brown {
   color: #4B2E25;
   text-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.4),
+    0 1px 0 rgba(255, 255, 255, 0.35),
     0 3px 0 rgba(0, 0, 0, 0.12),
     0 10px 16px rgba(75, 46, 37, 0.25);
 }

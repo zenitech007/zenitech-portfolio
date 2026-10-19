@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { motion, useReducedMotion } from 'framer-motion';
-import { ArrowRight, Heart } from 'lucide-react';
+import { Heart } from 'lucide-react';
 import ClayPlaceholder from './ClayPlaceholder';
 import CalendarWidget from './CalendarWidget';
 import ClayButton from './ClayButton';
@@ -17,9 +18,9 @@ export default function Hero() {
       return;
     }
     const { innerWidth, innerHeight } = window;
-    // Subtle tilt: max 6-8px
-    const x = ((e.clientX - innerWidth / 2) / innerWidth) * 14;
-    const y = ((e.clientY - innerHeight / 2) / innerHeight) * 14;
+    // Gentle mouse tilt
+    const x = ((e.clientX - innerWidth / 2) / innerWidth) * 12;
+    const y = ((e.clientY - innerHeight / 2) / innerHeight) * 12;
     setMouseOffset({ x, y });
   };
 
@@ -27,23 +28,29 @@ export default function Hero() {
     <section
       id="home"
       onMouseMove={handleMouseMove}
-      className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pt-12 pb-16 sm:pt-20 sm:pb-24 lg:pt-24 lg:pb-32 overflow-hidden"
+      className="relative w-full min-h-[100svh] overflow-hidden flex flex-col justify-center px-4 sm:px-8 lg:px-16 pt-24 pb-16 lg:py-0 select-none"
     >
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-        {/* Left Column: Headline, Subtext, CTA */}
-        <div className="lg:col-span-6 space-y-6 sm:space-y-8 text-center lg:text-left">
+      {/* Ambient Blurred Clay Blobs Behind Everything */}
+      <div className="absolute -left-28 top-[20%] w-[380px] sm:w-[480px] h-[380px] sm:h-[480px] rounded-full bg-[#B49CF0]/25 blur-[100px] pointer-events-none -z-10 animate-clay-blob" />
+      <div className="absolute -right-28 top-[25%] w-[380px] sm:w-[480px] h-[380px] sm:h-[480px] rounded-full bg-[#F2508A]/20 blur-[100px] pointer-events-none -z-10 animate-clay-blob" />
+      <div className="absolute left-[4%] bottom-[8%] w-[280px] sm:w-[360px] h-[160px] sm:h-[200px] rounded-full bg-[#FFF6E8]/75 blur-[80px] pointer-events-none -z-10 animate-clay-float" />
+
+      {/* Main Content Container */}
+      <div className="relative z-20 max-w-7xl mx-auto w-full flex flex-col lg:flex-row items-center justify-between">
+        {/* Left Column: Headline, Subtext, Real Clay Pill CTAs (~45% on desktop) */}
+        <div className="w-full lg:w-[48%] space-y-6 sm:space-y-8 text-center lg:text-left z-20">
           {/* 3-Line Embossed Clay Headline */}
-          <div className="space-y-0.5 sm:space-y-1">
-            <h1 className="font-heading font-bold text-[clamp(2.75rem,7.5vw,6rem)] leading-[0.98] tracking-tight clay-emboss-brown">
+          <div className="space-y-1 sm:space-y-1.5">
+            <h1 className="font-heading font-bold text-[clamp(2.75rem,7.5vw,5.75rem)] leading-[0.98] tracking-tight clay-emboss-brown">
               Crafted
             </h1>
-            <h1 className="font-heading font-bold text-[clamp(2.75rem,7.5vw,6rem)] leading-[0.98] tracking-tight clay-emboss-brown">
+            <h1 className="font-heading font-bold text-[clamp(2.75rem,7.5vw,5.75rem)] leading-[0.98] tracking-tight clay-emboss-brown">
               with
             </h1>
             <div className="flex items-center justify-center lg:justify-start gap-3 sm:gap-4">
-              <h1 className="font-heading font-bold text-[clamp(2.75rem,7.5vw,6rem)] leading-[0.98] tracking-tight clay-emboss-pink">
+              <span className="font-heading font-bold text-[clamp(2.75rem,7.5vw,5.75rem)] leading-[0.98] tracking-tight text-[#F2508A] clay-emboss-pink">
                 Care
-              </h1>
+              </span>
 
               {/* Floating Pink Clay Heart */}
               <motion.div
@@ -51,7 +58,7 @@ export default function Hero() {
                   shouldReduceMotion
                     ? {}
                     : {
-                        y: [0, -10, 0],
+                        y: [0, -8, 0],
                         rotate: [0, 8, -6, 0],
                         scale: [1, 1.08, 0.98, 1],
                       }
@@ -74,135 +81,140 @@ export default function Hero() {
             <strong className="text-[#4B2E25] font-bold">ZeniTech</strong>, crafting soft, scalable SaaS platforms and delightful digital products.
           </p>
 
-          {/* CTA: Big Lavender Pill + Round Cream Arrow Button */}
-          <div className="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-3">
+          {/* Real Clay Pill CTAs */}
+          <div className="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-4">
             <ClayButton
               variant="lavender"
               href="#projects"
-              className="!px-8 !py-4 !text-lg sm:!text-xl gap-3 shadow-xl"
+              hasArrow
               ariaLabel="View My Work"
             >
-              <span>View My Work</span>
-              {/* Integrated Round Cream Arrow Button */}
-              <div className="clay-arrow-btn w-9 h-9 sm:w-10 sm:h-10 ml-1">
-                <ArrowRight className="w-5 h-5 text-[#4B2E25]" />
-              </div>
+              View My Work
             </ClayButton>
 
             <ClayButton
               variant="cream"
               href="#contact"
-              className="!px-6 !py-4 !text-base sm:!text-lg font-bold"
-              ariaLabel="Contact Olanrewaju"
+              ariaLabel="Get in Touch"
             >
-              <span>Get in Touch</span>
+              Get in Touch
             </ClayButton>
           </div>
         </div>
 
-        {/* Right Column: 3D Clay Scene + Calendar Widget */}
-        <div className="lg:col-span-6 relative flex flex-col items-center">
-          {/* Calendar Widget Positioned at Top */}
-          <div className="w-full flex justify-center lg:justify-end mb-6 lg:mb-4 lg:-mr-4 z-20">
+        {/* Mobile-Only Character & Stack (<768px) */}
+        <div className="w-full flex md:hidden flex-col items-center mt-12 z-20">
+          {/* Small Calendar Widget above the hill on mobile */}
+          <div className="mb-6">
             <CalendarWidget />
           </div>
 
-          {/* Interactive Parallax Scene Container */}
+          {/* Character standing with NO card wrapper */}
           <motion.div
-            animate={{
-              x: mouseOffset.x,
-              y: mouseOffset.y,
+            animate={
+              shouldReduceMotion
+                ? {}
+                : {
+                    y: [0, -8, 0],
+                  }
+            }
+            transition={{
+              duration: 5,
+              repeat: Infinity,
+              ease: 'easeInOut',
             }}
-            transition={{ type: 'spring' as const, stiffness: 120, damping: 16 }}
-            className="relative w-full max-w-[480px] sm:max-w-[540px] flex items-end justify-center"
+            className="w-[80vw] max-w-[360px] aspect-square relative z-20 -mb-6"
           >
-            {/* Big Lavender Clay Desk / Hill that Bleeds */}
-            <div className="clay clay-lavender w-full rounded-t-[50px] sm:rounded-t-[70px] pt-10 pb-6 px-6 relative flex flex-col items-center justify-end overflow-hidden shadow-2xl">
-              {/* Top Desk Lip Highlight */}
-              <div className="absolute top-0 left-0 right-0 h-3 bg-white/40 rounded-t-[50px] blur-[1px]" />
-
-              {/* Main Waving Character at Laptop */}
-              <motion.div
-                animate={
-                  shouldReduceMotion
-                    ? {}
-                    : {
-                        y: [0, -8, 0],
-                      }
-                }
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-                className="w-64 h-64 sm:w-[340px] sm:h-[340px] md:w-[380px] md:h-[380px] relative z-10 -mb-2"
-              >
-                <ClayPlaceholder
-                  name="hero-character"
-                  alt="3D Clay Developer Character sitting at laptop waving"
-                  width={380}
-                  height={380}
-                  priority
-                />
-              </motion.div>
-
-              {/* Accessories on the desk */}
-              <div className="absolute bottom-3 left-4 sm:left-8 z-20">
-                <motion.div
-                  animate={
-                    shouldReduceMotion
-                      ? {}
-                      : {
-                          y: [0, -6, 0],
-                          rotate: [0, 2, 0],
-                        }
-                  }
-                  transition={{
-                    duration: 4.2,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                    delay: 0.6,
-                  }}
-                  className="w-16 h-20 sm:w-20 sm:h-24"
-                >
-                  <ClayPlaceholder
-                    name="plant"
-                    alt="Potted clay plant on desk"
-                    width={90}
-                    height={110}
-                  />
-                </motion.div>
-              </div>
-
-              <div className="absolute bottom-4 right-4 sm:right-8 z-20">
-                <motion.div
-                  animate={
-                    shouldReduceMotion
-                      ? {}
-                      : {
-                          y: [0, -5, 0],
-                          rotate: [0, -3, 0],
-                        }
-                  }
-                  transition={{
-                    duration: 3.8,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                    delay: 1.2,
-                  }}
-                  className="w-14 h-14 sm:w-18 sm:h-18"
-                >
-                  <ClayPlaceholder
-                    name="coffee"
-                    alt="Steaming clay coffee mug"
-                    width={80}
-                    height={80}
-                  />
-                </motion.div>
-              </div>
-            </div>
+            <Image
+              src="/hero-character.webp"
+              alt="3D Clay Developer Character sitting at laptop waving"
+              width={640}
+              height={616}
+              priority
+              className="w-full h-full object-contain filter drop-shadow-[0_12px_24px_rgba(75,46,37,0.18)]"
+            />
           </motion.div>
+
+          {/* Mobile Full-width Lavender Hill */}
+          <div
+            className="w-full h-24 rounded-t-[50px] relative z-10 shadow-[0_-10px_24px_rgba(138,107,212,0.35),inset_0_3px_6px_rgba(255,255,255,0.7)]"
+            style={{
+              background: 'linear-gradient(180deg, #B9A3F2 0%, #9C80E0 100%)',
+            }}
+          />
         </div>
+      </div>
+
+      {/* Desktop Calendar Widget (Moved to top ~110px, right ~48px, behind character head z-15) */}
+      <div className="hidden md:block absolute top-[110px] right-[48px] w-[280px] z-15">
+        <CalendarWidget />
+      </div>
+
+      {/* Desktop Character Image: Stands directly on top of the hill with NO wrapper card */}
+      <div
+        className="hidden md:flex absolute bottom-[calc(34%-24px)] right-[24%] translate-x-1/2 z-20 flex-col items-center pointer-events-none"
+        style={{ width: 'clamp(380px, 42vw, 640px)' }}
+      >
+        <motion.div
+          animate={
+            shouldReduceMotion
+              ? { x: mouseOffset.x * 0.5, y: mouseOffset.y * 0.5 }
+              : {
+                  x: mouseOffset.x * 0.5,
+                  y: [mouseOffset.y * 0.5, mouseOffset.y * 0.5 - 10, mouseOffset.y * 0.5],
+                }
+          }
+          transition={{
+            y: { duration: 5, repeat: Infinity, ease: 'easeInOut' },
+            x: { type: 'spring' as const, stiffness: 120, damping: 16 },
+          }}
+          className="relative w-full aspect-square pointer-events-auto select-none"
+        >
+          <Image
+            src="/hero-character.webp"
+            alt="3D Clay Developer Character sitting at laptop waving"
+            width={640}
+            height={616}
+            priority
+            className="w-full h-full object-contain filter drop-shadow-[0_16px_32px_rgba(75,46,37,0.22)]"
+          />
+        </motion.div>
+      </div>
+
+      {/* Separate Accessories Placed on the Hill to the Right of Laptop */}
+      <div className="hidden md:block absolute bottom-[calc(34%-16px)] right-[6%] lg:right-[8%] z-25 w-20 h-24 lg:w-24 lg:h-30 pointer-events-none">
+        <ClayPlaceholder
+          name="plant"
+          alt="Potted clay plant on desk"
+          width={96}
+          height={120}
+        />
+      </div>
+
+      <div className="hidden md:block absolute bottom-[calc(34%-12px)] right-[14%] lg:right-[16%] z-25 w-14 h-14 lg:w-16 lg:h-16 pointer-events-none">
+        <ClayPlaceholder
+          name="coffee"
+          alt="Steaming clay coffee mug"
+          width={80}
+          height={80}
+        />
+      </div>
+
+      {/* Large Lavender Clay Hill/Desk Shape (Div, not an image, bleeding off right and bottom) */}
+      <div
+        className="hidden md:block absolute bottom-0 right-[-8%] w-[68%] h-[34%] pointer-events-none z-10"
+        style={{
+          borderRadius: '50% 50% 0 0 / 100% 100% 0 0',
+          background: 'linear-gradient(180deg, #B9A3F2 0%, #9C80E0 100%)',
+          boxShadow:
+            '0 -16px 36px -8px rgba(138, 107, 212, 0.45), inset 0 4px 8px rgba(255, 255, 255, 0.7), inset 0 -12px 24px rgba(75, 40, 140, 0.3)',
+        }}
+      >
+        {/* Soft top highlight lip */}
+        <div
+          className="absolute top-0 left-0 right-0 h-3 bg-white/45 blur-[1px]"
+          style={{ borderRadius: '50% 50% 0 0 / 100% 100% 0 0' }}
+        />
       </div>
     </section>
   );

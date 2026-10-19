@@ -3,15 +3,17 @@ import { Fredoka, Nunito } from "next/font/google";
 import "./globals.css";
 
 const fredoka = Fredoka({
-  variable: "--font-heading",
+  variable: "--font-fredoka",
   subsets: ["latin"],
-  weight: ["700"],
+  weight: ["500", "600", "700"],
+  display: "swap",
 });
 
 const nunito = Nunito({
-  variable: "--font-body",
+  variable: "--font-nunito",
   subsets: ["latin"],
   weight: ["400", "600", "700"],
+  display: "swap",
 });
 
 export const viewport: Viewport = {
