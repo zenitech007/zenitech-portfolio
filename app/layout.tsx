@@ -1,28 +1,21 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
+import { Fredoka, Nunito } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const fredoka = Fredoka({
+  variable: "--font-heading",
   subsets: ["latin"],
+  weight: ["700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const nunito = Nunito({
+  variable: "--font-body",
   subsets: ["latin"],
-});
-
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "600", "700"],
 });
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#FFFBF5" },
-    { media: "(prefers-color-scheme: dark)", color: "#0A0A0F" },
-  ],
+  themeColor: "#FCEFDD",
   width: "device-width",
   initialScale: 1,
 };
@@ -42,7 +35,7 @@ export const metadata: Metadata = {
     "React 19",
     "Tailwind CSS v4",
     "TypeScript",
-    "Award Winning Portfolio"
+    "3D Clay Portfolio"
   ],
   authors: [{ name: "Olanrewaju Sorunke" }],
   creator: "Olanrewaju Sorunke",
@@ -76,26 +69,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              try {
-                const stored = localStorage.getItem('theme');
-                const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                if (stored === 'dark' || (!stored && systemDark)) {
-                  document.documentElement.classList.add('dark');
-                } else {
-                  document.documentElement.classList.remove('dark');
-                }
-              } catch (_) {}
-            `,
-          }}
-        />
-      </head>
+    <html lang="en" className="scroll-smooth">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} antialiased bg-[var(--background)] text-[var(--foreground)]`}
+        className={`${fredoka.variable} ${nunito.variable} antialiased bg-[#FCEFDD] text-[#4B2E25] font-body selection:bg-[#F2508A] selection:text-[#FFF6E8] min-h-screen`}
       >
         {children}
       </body>

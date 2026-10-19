@@ -1,148 +1,355 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
-:root {
-  --background: #FFFBF5;
-  --foreground: #101014;
-}
-
-.dark {
-  --background: #0A0A0F;
-  --foreground: #F5F5FA;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-pop-violet: #7C3AED;
-  --color-pop-coral: #FF4D6D;
-  --color-pop-amber: #FFB020;
-  --color-pop-sky: #38BDF8;
-  --color-ink: #101014;
-  --color-cream: #FFFBF5;
-  --font-display: var(--font-space-grotesk);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg-page: #FCEFDD;
+  --color-surface-cream: #FFF6E8;
+  --color-lavender: #B49CF0;
+  --color-lavender-deep: #8A6BD4;
+  --color-pink-hot: #F2508A;
+  --color-pink-soft: #F8C5D2;
+  --color-mint: #A9DDB0;
+  --color-mint-deep: #7CC589;
+  --color-sunny: #F9D24A;
+  --color-teal: #6FCBC4;
+  --color-brown: #4B2E25;
+  --color-brown-soft: #6B4A3E;
+
+  --font-heading: var(--font-heading), system-ui, sans-serif;
+  --font-body: var(--font-body), system-ui, sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  background-color: #FCEFDD;
+  background-image: radial-gradient(circle at 50% 20%, #FFF7EA 0%, #FCEFDD 80%);
+  color: #4B2E25;
+  font-family: var(--font-body), system-ui, sans-serif;
   overflow-x: hidden;
-  transition: background-color 0.25s ease, color 0.25s ease;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading), system-ui, sans-serif;
+  color: #4B2E25;
 }
 
 ::selection {
-  background-color: #7C3AED;
-  color: #FFFBF5;
+  background-color: #F2508A;
+  color: #FFF6E8;
 }
 
-/* Custom scrollbar */
+/* Custom soft clay scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #FFFBF5;
+  background: #FCEFDD;
 }
 ::-webkit-scrollbar-thumb {
-  background: #101014;
-  border-radius: 4px;
+  background: #B49CF0;
+  border: 2px solid #FCEFDD;
+  border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #7C3AED;
+  background: #8A6BD4;
 }
 
-.dark ::-webkit-scrollbar-track {
-  background: #0A0A0F;
-}
-.dark ::-webkit-scrollbar-thumb {
-  background: #252533;
-}
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: #7C3AED;
+/* ==========================================================================
+   3D CLAY SURFACES & SHADOW RECIPES
+   ========================================================================== */
+
+.clay {
+  border-radius: 36px;
+  position: relative;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
 }
 
-/* Conic gradient keyframes for rotating headline word */
-@keyframes spin-gradient {
-  0% {
-    filter: hue-rotate(0deg);
-  }
-  100% {
-    filter: hue-rotate(360deg);
+@media (max-width: 640px) {
+  .clay {
+    border-radius: 24px;
   }
 }
 
-.animate-spin-gradient {
-  animation: spin-gradient 8s linear infinite;
+/* 1. Cream Clay (Main Surfaces & Cards) */
+.clay-cream {
+  background: #FFF6E8;
+  box-shadow:
+    0 24px 48px -12px rgba(180, 140, 110, 0.28),
+    0 8px 16px -4px rgba(180, 140, 110, 0.16),
+    inset 0 4px 8px rgba(255, 255, 255, 0.95),
+    inset 0 -8px 16px rgba(75, 46, 37, 0.08);
 }
 
-/* Blob drift keyframes (transform-only) */
-@keyframes blob-drift-1 {
-  0%, 100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(40px, -60px, 0) scale(1.08);
-  }
+/* 2. Lavender Clay */
+.clay-lavender {
+  background: linear-gradient(180deg, #B49CF0 0%, #8A6BD4 100%);
+  color: #4B2E25;
+  box-shadow:
+    0 24px 48px -12px rgba(138, 107, 212, 0.38),
+    0 8px 16px -4px rgba(138, 107, 212, 0.22),
+    inset 0 4px 8px rgba(255, 255, 255, 0.85),
+    inset 0 -8px 16px rgba(75, 40, 140, 0.22);
 }
 
-@keyframes blob-drift-2 {
-  0%, 100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(-50px, 50px, 0) scale(0.95);
-  }
+/* 3. Pink Hot Clay */
+.clay-pink {
+  background: linear-gradient(180deg, #F56B9E 0%, #F2508A 100%);
+  color: #FFF6E8;
+  box-shadow:
+    0 24px 48px -12px rgba(242, 80, 138, 0.38),
+    0 8px 16px -4px rgba(242, 80, 138, 0.22),
+    inset 0 4px 8px rgba(255, 255, 255, 0.85),
+    inset 0 -8px 16px rgba(170, 20, 75, 0.22);
 }
 
-@keyframes blob-drift-3 {
-  0%, 100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(30px, 40px, 0) scale(1.05);
-  }
+/* 4. Pink Soft Clay */
+.clay-pink-soft {
+  background: #F8C5D2;
+  color: #4B2E25;
+  box-shadow:
+    0 24px 48px -12px rgba(220, 130, 150, 0.32),
+    0 8px 16px -4px rgba(220, 130, 150, 0.18),
+    inset 0 4px 8px rgba(255, 255, 255, 0.9),
+    inset 0 -8px 16px rgba(140, 50, 80, 0.12);
 }
 
-.animate-blob-1 {
-  animation: blob-drift-1 22s ease-in-out infinite;
-  will-change: transform;
+/* 5. Mint Clay */
+.clay-mint {
+  background: linear-gradient(180deg, #A9DDB0 0%, #7CC589 100%);
+  color: #4B2E25;
+  box-shadow:
+    0 24px 48px -12px rgba(124, 197, 137, 0.38),
+    0 8px 16px -4px rgba(124, 197, 137, 0.22),
+    inset 0 4px 8px rgba(255, 255, 255, 0.85),
+    inset 0 -8px 16px rgba(50, 130, 70, 0.2);
 }
 
-.animate-blob-2 {
-  animation: blob-drift-2 26s ease-in-out infinite;
-  will-change: transform;
+/* 6. Sunny Clay */
+.clay-sunny {
+  background: linear-gradient(180deg, #FDE06D 0%, #F9D24A 100%);
+  color: #4B2E25;
+  box-shadow:
+    0 24px 48px -12px rgba(220, 160, 30, 0.38),
+    0 8px 16px -4px rgba(220, 160, 30, 0.22),
+    inset 0 4px 8px rgba(255, 255, 255, 0.9),
+    inset 0 -8px 16px rgba(160, 100, 10, 0.16);
 }
 
-.animate-blob-3 {
-  animation: blob-drift-3 20s ease-in-out infinite;
-  will-change: transform;
+/* 7. Inner Clay Frame / Recessed Well */
+.clay-inset {
+  border-radius: 24px;
+  background: #FCEFDD;
+  box-shadow:
+    inset 0 4px 10px rgba(75, 46, 37, 0.12),
+    inset 0 -2px 6px rgba(255, 255, 255, 0.85),
+    0 2px 4px rgba(255, 255, 255, 0.5);
 }
 
-/* Marquee infinite scroll */
-@keyframes marquee {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-  100% {
-    transform: translate3d(-50%, 0, 0);
-  }
+/* ==========================================================================
+   CLAY BUTTONS & CONTROLS
+   ========================================================================== */
+
+.clay-btn {
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading), system-ui, sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, filter 0.2s ease;
 }
 
-.animate-marquee {
+.clay-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+}
+
+.clay-btn:active {
+  transform: translateY(2px) scale(0.97);
+}
+
+.clay-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px #8A6BD4;
+}
+
+/* Button Variants */
+.clay-btn-lavender {
+  background: linear-gradient(180deg, #C2ABF7 0%, #8A6BD4 100%);
+  color: #4B2E25;
+  box-shadow:
+    0 12px 24px -6px rgba(138, 107, 212, 0.45),
+    0 4px 8px -2px rgba(138, 107, 212, 0.25),
+    inset 0 3px 6px rgba(255, 255, 255, 0.85),
+    inset 0 -4px 8px rgba(75, 40, 140, 0.25);
+}
+.clay-btn-lavender:active {
+  box-shadow:
+    0 4px 8px -2px rgba(138, 107, 212, 0.35),
+    inset 0 2px 4px rgba(255, 255, 255, 0.6),
+    inset 0 -6px 12px rgba(75, 40, 140, 0.35);
+}
+
+.clay-btn-pink {
+  background: linear-gradient(180deg, #F86E9E 0%, #F2508A 100%);
+  color: #FFF6E8;
+  box-shadow:
+    0 12px 24px -6px rgba(242, 80, 138, 0.45),
+    0 4px 8px -2px rgba(242, 80, 138, 0.25),
+    inset 0 3px 6px rgba(255, 255, 255, 0.85),
+    inset 0 -4px 8px rgba(170, 20, 75, 0.25);
+}
+.clay-btn-pink:active {
+  box-shadow:
+    0 4px 8px -2px rgba(242, 80, 138, 0.35),
+    inset 0 2px 4px rgba(255, 255, 255, 0.6),
+    inset 0 -6px 12px rgba(170, 20, 75, 0.35);
+}
+
+.clay-btn-cream {
+  background: linear-gradient(180deg, #FFFFFF 0%, #FFF0D9 100%);
+  color: #4B2E25;
+  box-shadow:
+    0 12px 24px -6px rgba(180, 140, 110, 0.32),
+    0 4px 8px -2px rgba(180, 140, 110, 0.18),
+    inset 0 3px 6px rgba(255, 255, 255, 0.95),
+    inset 0 -4px 8px rgba(75, 46, 37, 0.12);
+}
+.clay-btn-cream:active {
+  box-shadow:
+    0 4px 8px -2px rgba(180, 140, 110, 0.25),
+    inset 0 2px 4px rgba(255, 255, 255, 0.8),
+    inset 0 -6px 12px rgba(75, 46, 37, 0.2);
+}
+
+/* ==========================================================================
+   CLAY TILES & CHIPS
+   ========================================================================== */
+
+.clay-icon-tile {
+  width: 92px;
+  height: 92px;
+  border-radius: 28px;
   display: flex;
-  width: max-content;
-  animation: marquee 25s linear infinite;
-  will-change: transform;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.animate-marquee:hover {
-  animation-play-state: paused;
+@media (max-width: 640px) {
+  .clay-icon-tile {
+    width: 76px;
+    height: 76px;
+    border-radius: 22px;
+  }
 }
 
-/* Respect reduced motion */
+.clay-chip {
+  border-radius: 9999px;
+  padding: 6px 14px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  background: #FFF6E8;
+  color: #4B2E25;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow:
+    0 6px 12px -3px rgba(180, 140, 110, 0.24),
+    0 2px 4px -1px rgba(180, 140, 110, 0.12),
+    inset 0 2px 4px rgba(255, 255, 255, 0.95),
+    inset 0 -2px 4px rgba(75, 46, 37, 0.08);
+}
+
+/* Round Arrow / Action Button */
+.clay-arrow-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFF6E8;
+  color: #4B2E25;
+  box-shadow:
+    0 8px 16px -4px rgba(180, 140, 110, 0.3),
+    inset 0 2px 4px rgba(255, 255, 255, 0.95),
+    inset 0 -3px 6px rgba(75, 46, 37, 0.12);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+}
+.clay-arrow-btn:hover {
+  transform: translateY(-2px) scale(1.06);
+}
+.clay-arrow-btn:active {
+  transform: translateY(2px) scale(0.95);
+}
+
+/* ==========================================================================
+   EMBOSSED CLAY TEXT RECIPES
+   ========================================================================== */
+
+.clay-emboss-brown {
+  color: #4B2E25;
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.4),
+    0 3px 0 rgba(0, 0, 0, 0.12),
+    0 10px 16px rgba(75, 46, 37, 0.25);
+}
+
+.clay-emboss-pink {
+  color: #F2508A;
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.45),
+    0 3px 0 rgba(190, 30, 85, 0.3),
+    0 10px 16px rgba(242, 80, 138, 0.35);
+}
+
+.clay-emboss-lavender {
+  color: #8A6BD4;
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.45),
+    0 3px 0 rgba(90, 50, 160, 0.25),
+    0 8px 14px rgba(138, 107, 212, 0.3);
+}
+
+/* ==========================================================================
+   ANIMATIONS & FLOATING BLOBS
+   ========================================================================== */
+
+@keyframes clay-float-slow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(1.5deg);
+  }
+}
+
+@keyframes clay-blob-morph {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+  }
+  33% {
+    transform: translate3d(25px, -35px, 0) scale(1.08);
+    border-radius: 70% 30% 50% 50% / 30% 60% 40% 70%;
+  }
+  66% {
+    transform: translate3d(-20px, 20px, 0) scale(0.94);
+    border-radius: 50% 50% 30% 70% / 55% 30% 70% 45%;
+  }
+}
+
+.animate-clay-float {
+  animation: clay-float-slow 5s ease-in-out infinite;
+}
+
+.animate-clay-blob {
+  animation: clay-blob-morph 20s ease-in-out infinite;
+  will-change: transform, border-radius;
+}
+
+/* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   *,
   ::before,
@@ -152,12 +359,9 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  
-  .animate-blob-1,
-  .animate-blob-2,
-  .animate-blob-3,
-  .animate-marquee,
-  .animate-spin-gradient {
+
+  .animate-clay-float,
+  .animate-clay-blob {
     animation: none !important;
   }
 }
