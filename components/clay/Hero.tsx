@@ -127,7 +127,7 @@ export default function Hero() {
                   shouldReduceMotion
                     ? {}
                     : {
-                        y: [0, -10, 0],
+                        y: [0, -8, 0],
                       }
                 }
                 transition={{
@@ -135,13 +135,13 @@ export default function Hero() {
                   repeat: Infinity,
                   ease: 'easeInOut',
                 }}
-                className="w-64 h-64 sm:w-80 sm:h-80 relative z-10"
+                className="w-64 h-64 sm:w-[340px] sm:h-[340px] md:w-[380px] md:h-[380px] relative z-10 -mb-2"
               >
                 <ClayPlaceholder
                   name="hero-character"
                   alt="3D Clay Developer Character sitting at laptop waving"
-                  width={340}
-                  height={340}
+                  width={380}
+                  height={380}
                   priority
                 />
               </motion.div>

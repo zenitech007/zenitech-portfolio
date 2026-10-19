@@ -36,6 +36,17 @@ export default function ClayPlaceholder({
   className = '',
 }: ClayPlaceholderProps) {
   const [hasError, setHasError] = useState(false);
+  const [currentSrc, setCurrentSrc] = useState(`/clay/${name}.webp`);
+  const [triedRoot, setTriedRoot] = useState(false);
+
+  const handleImageError = () => {
+    if (!triedRoot) {
+      setTriedRoot(true);
+      setCurrentSrc(`/${name}.webp`);
+    } else {
+      setHasError(true);
+    }
+  };
 
   // Soft SVG 3D clay fallbacks if WebP asset is not yet added to /public/clay/
   const renderFallback = () => {
@@ -346,13 +357,13 @@ export default function ClayPlaceholder({
     >
       {!hasError ? (
         <Image
-          src={`/clay/${name}.webp`}
+          src={currentSrc}
           alt={alt}
           width={width}
           height={height}
           priority={priority}
-          onError={() => setHasError(true)}
-          className="w-full h-full object-contain"
+          onError={handleImageError}
+          className="w-full h-full object-contain filter drop-shadow-[0_12px_24px_rgba(75,46,37,0.18)]"
         />
       ) : (
         renderFallback()
