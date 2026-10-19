@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -12,18 +12,37 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#FFFBF5" },
+    { media: "(prefers-color-scheme: dark)", color: "#0A0A0F" },
+  ],
+  width: "device-width",
+  initialScale: 1,
+};
+
 export const metadata: Metadata = {
-  title: "ZeniTech | Olanrewaju Sorunke",
-  description: "Portfolio of Olanrewaju Sorunke, a Frontend Developer, UI/UX Designer, and AI integration specialist building scalable SaaS platforms and high-performance web systems.",
+  metadataBase: new URL("https://zenitech-phi.vercel.app"),
+  title: "Olanrewaju Sorunke — Creative Developer & AI Specialist | ZeniTech",
+  description: "Portfolio of Olanrewaju Sorunke. Senior frontend engineer, creative developer, and AI integration specialist crafting bold, motion-rich SaaS platforms and high-performance digital experiences.",
   keywords: [
-    "Frontend Developer",
+    "Olanrewaju Sorunke",
+    "ZeniTech",
+    "Creative Developer",
+    "Frontend Engineer",
     "UI/UX Designer",
     "AI Integration",
     "Next.js Developer",
-    "React",
-    "Web Developer Nigeria",
-    "ZeniTech",
-    "Olanrewaju Sorunke"
+    "React 19",
+    "Tailwind CSS v4",
+    "TypeScript",
+    "Award Winning Portfolio"
   ],
   authors: [{ name: "Olanrewaju Sorunke" }],
   creator: "Olanrewaju Sorunke",
@@ -31,23 +50,23 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://zenitech-phi.vercel.app",
-    title: "ZeniTech | Olanrewaju Sorunke",
-    description: "Portfolio of Olanrewaju Sorunke, a Frontend Developer, UI/UX Designer, and AI integration specialist.",
-    siteName: "ZeniTech",
+    title: "Olanrewaju Sorunke — Creative Developer & AI Specialist | ZeniTech",
+    description: "Creative developer crafting bold, motion-rich SaaS platforms, AI integrations, and high-impact digital experiences.",
+    siteName: "ZeniTech Portfolio",
     images: [
       {
-        url: "/og-image.jpg", // This references a file in your public folder
+        url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "ZeniTech Portfolio - Olanrewaju Sorunke",
+        alt: "ZeniTech Portfolio — Olanrewaju Sorunke",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ZeniTech | Olanrewaju Sorunke",
-    description: "Frontend Developer, UI/UX Designer, and AI integration specialist.",
-    images: ["/og-image.jpg"], // This references a file in your public folder
+    title: "Olanrewaju Sorunke — Creative Developer & AI Specialist | ZeniTech",
+    description: "Creative developer crafting bold, motion-rich SaaS platforms, AI integrations, and high-impact digital experiences.",
+    images: ["/og-image.jpg"],
   },
 };
 
@@ -57,9 +76,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                const stored = localStorage.getItem('theme');
+                const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (stored === 'dark' || (!stored && systemDark)) {
+                  document.documentElement.classList.add('dark');
+                } else {
+                  document.documentElement.classList.remove('dark');
+                }
+              } catch (_) {}
+            `,
+          }}
+        />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} antialiased bg-[var(--background)] text-[var(--foreground)]`}
       >
         {children}
       </body>
