@@ -1,67 +1,83 @@
-import type { Metadata, Viewport } from "next";
-import { Fredoka, Nunito } from "next/font/google";
-import "./globals.css";
+import type { Metadata, Viewport } from 'next';
+import { Anton, Allura, Space_Grotesk, JetBrains_Mono } from 'next/font/google';
+import './globals.css';
+import { profile } from '@/src/content/profile';
 
-const fredoka = Fredoka({
-  variable: "--font-fredoka",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  display: "swap",
+const anton = Anton({
+  variable: '--font-anton',
+  subsets: ['latin'],
+  weight: '400',
+  display: 'swap',
 });
 
-const nunito = Nunito({
-  variable: "--font-nunito",
-  subsets: ["latin"],
-  weight: ["400", "600", "700"],
-  display: "swap",
+const allura = Allura({
+  variable: '--font-allura',
+  subsets: ['latin'],
+  weight: '400',
+  display: 'swap',
+});
+
+const spaceGrotesk = Space_Grotesk({
+  variable: '--font-space-grotesk',
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['400', '500', '600', '700'],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: '--font-jetbrains-mono',
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['400', '500', '700'],
 });
 
 export const viewport: Viewport = {
-  themeColor: "#FCEFDD",
-  width: "device-width",
+  themeColor: '#08070d',
+  width: 'device-width',
   initialScale: 1,
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://zenitech-phi.vercel.app"),
-  title: "Olanrewaju Sorunke — Creative Developer & AI Specialist | ZeniTech",
-  description: "Portfolio of Olanrewaju Sorunke. Senior frontend engineer, creative developer, and AI integration specialist crafting bold, motion-rich SaaS platforms and high-performance digital experiences.",
+  metadataBase: new URL('https://zenitech-phi.vercel.app'),
+  title: `${profile.name} — Creative Developer | Portfolio`,
+  description: 'Creative Developer portfolio designing and coding digital experiences that inspire. Code, Design, Deploy.',
   keywords: [
-    "Olanrewaju Sorunke",
-    "ZeniTech",
-    "Creative Developer",
-    "Frontend Engineer",
-    "UI/UX Designer",
-    "AI Integration",
-    "Next.js Developer",
-    "React 19",
-    "Tailwind CSS v4",
-    "TypeScript",
-    "3D Clay Portfolio"
+    'Creative Developer',
+    'Frontend Developer',
+    'Next.js Developer',
+    'Design Engineer',
+    'Digital Experiences',
+    'TypeScript',
+    'Tailwind CSS',
+    'Web Architecture',
   ],
-  authors: [{ name: "Olanrewaju Sorunke" }],
-  creator: "Olanrewaju Sorunke",
+  authors: [{ name: profile.name, url: 'https://zenitech-phi.vercel.app' }],
+  creator: profile.name,
+  robots: {
+    index: true,
+    follow: true,
+  },
   openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: "https://zenitech-phi.vercel.app",
-    title: "Olanrewaju Sorunke — Creative Developer & AI Specialist | ZeniTech",
-    description: "Creative developer crafting bold, motion-rich SaaS platforms, AI integrations, and high-impact digital experiences.",
-    siteName: "ZeniTech Portfolio",
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://zenitech-phi.vercel.app',
+    title: `${profile.name} — Creative Developer`,
+    description: 'I design & code digital experiences that inspire.',
+    siteName: `${profile.name} Portfolio`,
     images: [
       {
-        url: "/og-image.jpg",
+        url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: "ZeniTech Portfolio — Olanrewaju Sorunke",
+        alt: `${profile.name} — Creative Developer`,
       },
     ],
   },
   twitter: {
-    card: "summary_large_image",
-    title: "Olanrewaju Sorunke — Creative Developer & AI Specialist | ZeniTech",
-    description: "Creative developer crafting bold, motion-rich SaaS platforms, AI integrations, and high-impact digital experiences.",
-    images: ["/og-image.jpg"],
+    card: 'summary_large_image',
+    title: `${profile.name} — Creative Developer`,
+    description: 'I design & code digital experiences that inspire.',
+    images: ['/og-image.jpg'],
   },
 };
 
@@ -71,10 +87,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="dark scroll-smooth">
       <body
-        className={`${fredoka.variable} ${nunito.variable} antialiased bg-[#FCEFDD] text-[#4B2E25] font-body selection:bg-[#F2508A] selection:text-[#FFF6E8] min-h-screen`}
+        className={`${anton.variable} ${allura.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased bg-[#08070d] text-[#f4f4f6] font-sans min-h-screen selection:bg-[#7b5ce0] selection:text-white`}
       >
+        {/* Accessible skip link for keyboard navigation */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#8B5CF6] focus:text-white focus:font-semibold focus:rounded focus:outline-none"
+        >
+          Skip to main content
+        </a>
         {children}
       </body>
     </html>

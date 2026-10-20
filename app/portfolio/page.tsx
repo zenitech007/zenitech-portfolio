@@ -1,128 +1,97 @@
-'use client';
-
 import React from 'react';
+import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowLeft, Sparkles, Mail } from 'lucide-react';
-
+import ContactFooter from '@/components/ContactFooter';
 import { projects } from '@/data/projects';
-import {
-  FloatingBlob,
-  ProjectCard,
-  Footer,
-  ClayButton,
-  ClayPlaceholder,
-} from '@/components/clay';
+import { profile } from '@/src/content/profile';
 
-export default function PortfolioPage() {
-  const bentoColors: Array<'lavender' | 'mint' | 'sunny' | 'pink-soft' | 'cream'> = [
-    'lavender',
-    'mint',
-    'sunny',
-    'pink-soft',
-    'cream',
-  ];
+export const metadata: Metadata = {
+  title: `Project Archive — ${profile.name}`,
+  description: `Comprehensive catalogue of all ${projects.length} web applications, SaaS platforms, and digital experiences engineered by ${profile.name}.`,
+};
 
+export default function PortfolioArchivePage() {
   return (
-    <div className="relative min-h-screen bg-[#FCEFDD] text-[#4B2E25] font-sans overflow-x-hidden selection:bg-[#B49CF0] selection:text-[#4B2E25]">
-      {/* 1. Ambient Floating Clay Blobs */}
-      <FloatingBlob />
-
-      {/* 2. Floating Clay Header / Nav */}
-      <header className="sticky top-3 sm:top-5 z-50 max-w-6xl mx-auto px-4 sm:px-6 select-none">
-        <nav className="clay clay-cream px-5 py-3 sm:py-3.5 flex items-center justify-between">
+    <div className="relative min-h-screen bg-[#0A0A10] text-[#F4F4F5] font-sans selection:bg-[#8B5CF6] selection:text-white">
+      <main id="main-content" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+        {/* Breadcrumb / Back Link */}
+        <div className="mb-8">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 font-heading font-bold text-sm sm:text-base text-[#4B2E25] hover:text-[#F2508A] transition-colors focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-[#8A6BD4] rounded-full px-3 py-1.5 bg-[#FFF6E8] shadow-[inset_0_1px_2px_rgba(255,255,255,0.9),0_2px_4px_rgba(75,46,37,0.06)]"
+            className="inline-flex items-center gap-2 font-mono text-xs text-zinc-400 hover:text-[#A78BFA] transition-colors"
           >
-            <ArrowLeft className="w-4 h-4" />
-            <span>Back to Home</span>
+            <svg className="w-4 h-4 text-[#A78BFA]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            <span>Return to Overview</span>
           </Link>
+        </div>
 
-          <div className="flex items-center gap-2 sm:gap-3">
-            <Link
-              href="/"
-              className="hidden sm:flex items-center gap-2 font-heading font-bold text-xl text-[#4B2E25]"
-            >
-              <div className="w-7 h-7">
-                <ClayPlaceholder name="logo-flower" width={28} height={28} alt="Flower" />
-              </div>
-              <span>Zeni<span className="text-[#F2508A]">Tech</span></span>
-            </Link>
-
-            <ClayButton
-              variant="pink"
-              href="/#contact"
-              className="!px-5 !py-2.5 !text-xs sm:!text-sm gap-2"
-              ariaLabel="Hire Me"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-[#FFF6E8]" />
-              <span>Hire Me</span>
-            </ClayButton>
+        {/* Header */}
+        <div className="max-w-3xl space-y-4 mb-16">
+          <div className="flex items-center gap-2 font-mono text-xs text-[#A78BFA] uppercase tracking-widest font-semibold">
+            <span>{'// Full Archive'}</span>
           </div>
-        </nav>
-      </header>
-
-      {/* 3. Main Content: Catalogue Header + 9 Bento Projects */}
-      <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
-        {/* Header Block */}
-        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16 space-y-4">
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#FFF6E8] text-[#4B2E25] font-heading font-bold text-xs uppercase tracking-wider shadow-[inset_0_1px_2px_rgba(255,255,255,0.9),0_2px_6px_rgba(75,46,37,0.06)]">
-            <Sparkles className="w-3.5 h-3.5 text-[#F2508A]" />
-            <span>Complete Catalogue</span>
-          </div>
-
-          <h1 className="font-heading font-bold text-3xl sm:text-5xl lg:text-6xl text-[#4B2E25] tracking-tight clay-emboss-brown leading-[1.06]">
-            All Production Case Studies
+          <h1 className="text-3xl sm:text-5xl font-display font-normal uppercase tracking-tight text-white">
+            PROJECT REGISTRY
           </h1>
-
-          <p className="text-base sm:text-lg text-[#6B4A3E] font-semibold leading-relaxed">
-            A comprehensive showcase of all {projects.length} web applications, SaaS platforms, and AI integrations engineered to date.
+          <p className="text-sm sm:text-base text-zinc-400 leading-relaxed font-sans">
+            A comprehensive archive of commercial web applications, storefronts, and AI tools built with Next.js, TypeScript, and modern component architectures.
           </p>
         </div>
 
-        {/* 9-Project Bento Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
-          {projects.map((project, idx) => {
-            // First project and 6th project are featured (2 cols)
-            const isFeatured = idx === 0 || idx === 5;
-            return (
-              <ProjectCard
-                key={project.title}
-                project={project}
-                variant={bentoColors[idx % bentoColors.length]}
-                featured={isFeatured}
-                index={idx}
-              />
-            );
-          })}
-        </div>
+        {/* 9-Project Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {projects.map((project, idx) => (
+            <article
+              key={project.title}
+              className="p-6 rounded-2xl border border-white/5 bg-[#12121C] hover:border-[rgba(167,139,250,0.4)] transition-all duration-300 flex flex-col justify-between space-y-6"
+            >
+              <div className="space-y-4">
+                <div className="flex items-center justify-between font-mono text-xs text-zinc-500 border-b border-white/5 pb-3">
+                  <span>INDEX #{String(idx + 1).padStart(2, '0')}</span>
+                  {project.liveLink && (
+                    <a
+                      href={project.liveLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#A78BFA] hover:text-white flex items-center gap-1 transition-colors"
+                    >
+                      <span>Live Demo</span>
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </a>
+                  )}
+                </div>
 
-        {/* Bottom CTA Block */}
-        <div className="mt-16 sm:mt-24 text-center">
-          <div className="clay clay-lavender rounded-[32px] p-8 sm:p-12 max-w-3xl mx-auto space-y-4">
-            <h2 className="font-heading font-bold text-2xl sm:text-4xl text-[#4B2E25] tracking-tight clay-emboss-brown">
-              Ready to start your project?
-            </h2>
-            <p className="text-base text-[#4B2E25]/90 font-semibold max-w-lg mx-auto">
-              Let&apos;s build a standout web application or integrate AI intelligence into your business workflow.
-            </p>
-            <div className="pt-2 flex justify-center">
-              <ClayButton
-                variant="cream"
-                href="/#contact"
-                className="!px-7 !py-3.5 font-bold shadow-md"
-                ariaLabel="Get in touch"
-              >
-                <Mail className="w-4 h-4 text-[#4B2E25]" />
-                <span>Get in Touch</span>
-              </ClayButton>
-            </div>
-          </div>
+                <h2 className="text-lg font-bold text-white tracking-tight uppercase">
+                  {project.title}
+                </h2>
+
+                <p className="text-xs text-zinc-400 leading-relaxed font-sans">
+                  {project.solution}
+                </p>
+              </div>
+
+              <div className="space-y-4 pt-4 border-t border-white/5">
+                <div className="flex flex-wrap gap-1.5">
+                  {project.techStack.map((tech) => (
+                    <span
+                      key={tech}
+                      className="px-2 py-0.5 text-[10px] font-mono rounded bg-white/[0.04] text-zinc-300 border border-white/5"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </article>
+          ))}
         </div>
       </main>
 
-      {/* 4. Floating Cream Clay Footer */}
-      <Footer />
+      <ContactFooter />
     </div>
   );
 }
