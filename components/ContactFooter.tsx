@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { motion, useReducedMotion } from 'framer-motion';
 import { contactDetails, ContactIconType } from '@/src/content/contact';
 import { socialLinks, footerTagline, SocialIconType } from '@/src/content/socials';
 import { profile } from '@/src/content/profile';
@@ -114,6 +115,87 @@ function SocialIcon({ type }: { type: SocialIconType }) {
   }
 }
 
+/* ── Animated purple waves (motion style from the shadcn "animated wave footer") ──
+   Each layer is TWO identical wave periods side by side. Sliding a layer by exactly -50%
+   lands on the same picture again, so the loop is seamless (no jump at the end). */
+const WAVE_PERIOD = 1440;
+
+function wavePath(baseY: number, amp: number, skew: number, close: boolean) {
+  const seg = (x0: number) => {
+    const x1 = x0 + WAVE_PERIOD / 2;
+    const x2 = x0 + WAVE_PERIOD;
+    return (
+      `C${x0 + skew} ${baseY - amp} ${x1 - skew} ${baseY - amp} ${x1} ${baseY} ` +
+      `C${x1 + skew} ${baseY + amp} ${x2 - skew} ${baseY + amp} ${x2} ${baseY}`
+    );
+  };
+  const line = `M0 ${baseY} ${seg(0)} ${seg(WAVE_PERIOD)}`;
+  return close ? `${line} V400 H0 Z` : line;
+}
+
+// back wave: taller + slower, drifts left. front wave: flatter + faster, drifts right.
+const WAVE_LAYERS = [
+  { id: 'back', baseY: 150, amp: 90, skew: 260, duration: 38, reverse: false, fillTop: 0.26, fillBottom: 0.04, crest: 0.35 },
+  { id: 'front', baseY: 225, amp: 55, skew: 200, duration: 24, reverse: true, fillTop: 0.22, fillBottom: 0.06, crest: 0.25 },
+] as const;
+
+function WaveBackground() {
+  const reduceMotion = useReducedMotion();
+
+  return (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-x-0 bottom-0 h-[360px] sm:h-[460px] overflow-hidden"
+    >
+      {/* soft violet glow rising from the bottom edge */}
+      <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#7B5CE0]/20 to-transparent" />
+
+      {WAVE_LAYERS.map((layer) => (
+        <motion.div
+          key={layer.id}
+          className="absolute bottom-0 left-0 h-full w-[max(200%,2400px)] will-change-transform"
+          animate={
+            reduceMotion
+              ? { x: '0%' }
+              : { x: layer.reverse ? ['-50%', '0%'] : ['0%', '-50%'] }
+          }
+          transition={
+            reduceMotion
+              ? { duration: 0 }
+              : { duration: layer.duration, ease: 'linear', repeat: Infinity }
+          }
+        >
+          <svg
+            viewBox={`0 0 ${WAVE_PERIOD * 2} 400`}
+            preserveAspectRatio="none"
+            className="h-full w-full"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <linearGradient id={`footer-wave-fill-${layer.id}`} x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#8B5CF6" stopOpacity={layer.fillTop} />
+                <stop offset="100%" stopColor="#7C3AED" stopOpacity={layer.fillBottom} />
+              </linearGradient>
+            </defs>
+            <path
+              d={wavePath(layer.baseY, layer.amp, layer.skew, true)}
+              fill={`url(#footer-wave-fill-${layer.id})`}
+            />
+            <path
+              d={wavePath(layer.baseY, layer.amp, layer.skew, false)}
+              fill="none"
+              stroke="#A78BFA"
+              strokeOpacity={layer.crest}
+              strokeWidth={1.5}
+              vectorEffect="non-scaling-stroke"
+            />
+          </svg>
+        </motion.div>
+      ))}
+    </div>
+  );
+}
+
 export default function ContactFooter() {
   const [portraitError, setPortraitError] = useState(false);
 
@@ -121,132 +203,136 @@ export default function ContactFooter() {
     <footer
       id="contact"
       aria-label="Contact and Site Footer"
-      className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-24 pb-12 scroll-mt-20"
+      className="relative isolate overflow-hidden scroll-mt-20 bg-[linear-gradient(to_bottom,#08070d_0%,#0d0a1c_40%,#1a1236_100%)]"
     >
-      {/* ── SECTION 5: ONE FULL-WIDTH SURFACE CARD ── */}
-      <div className="bg-[#12121C] rounded-2xl border border-white/5 p-8 sm:p-10 lg:p-12 mb-12 shadow-2xl relative overflow-hidden">
-        {/* Ambient Subtle Glow */}
-        <div
-          className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-[#8B5CF6]/5 blur-3xl"
-          aria-hidden="true"
-        />
+      <WaveBackground />
 
-        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-8 items-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-24 pb-12">
+        {/* ── SECTION 5: ONE FULL-WIDTH SURFACE CARD ── */}
+        <div className="bg-[#12121C]/60 backdrop-blur-sm rounded-2xl border border-[#A78BFA]/15 p-8 sm:p-10 lg:p-12 mb-12 shadow-2xl relative overflow-hidden">
+          {/* Ambient Subtle Glow */}
+          <div
+            className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-[#8B5CF6]/5 blur-3xl"
+            aria-hidden="true"
+          />
 
-          {/* ── LEFT: CONTACT ── */}
-          <div className="space-y-6">
-            <div className="flex items-center gap-2">
-              <h2 className="font-display uppercase text-2xl sm:text-3xl text-[#A78BFA] tracking-tight">
-                CONTACT
-              </h2>
-              <span className="text-[#A78BFA] animate-twinkle text-sm" aria-hidden="true">
-                ✦
-              </span>
-            </div>
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-8 items-center">
 
-            <div className="space-y-4 font-sans">
-              {contactDetails.map((row) => (
-                <div key={row.label} className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-[rgba(167,139,250,0.08)] flex items-center justify-center shrink-0">
-                    <ContactIcon type={row.icon} />
+            {/* ── LEFT: CONTACT ── */}
+            <div className="space-y-6">
+              <div className="flex items-center gap-2">
+                <h2 className="font-display uppercase text-2xl sm:text-3xl text-[#A78BFA] tracking-tight">
+                  CONTACT
+                </h2>
+                <span className="text-[#A78BFA] animate-sparkle text-sm" aria-hidden="true">
+                  ✦
+                </span>
+              </div>
+
+              <div className="space-y-4 font-sans">
+                {contactDetails.map((row) => (
+                  <div key={row.label} className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-[rgba(167,139,250,0.08)] flex items-center justify-center shrink-0">
+                      <ContactIcon type={row.icon} />
+                    </div>
+                    {row.href ? (
+                      <a
+                        href={row.href}
+                        className="text-zinc-300 hover:text-[#A78BFA] text-xs sm:text-sm transition-colors duration-200 focus:outline-none focus-visible:underline"
+                      >
+                        {row.label}
+                      </a>
+                    ) : (
+                      <span className="text-zinc-300 text-xs sm:text-sm">
+                        {row.label}
+                      </span>
+                    )}
                   </div>
-                  {row.href ? (
-                    <a
-                      href={row.href}
-                      className="text-zinc-300 hover:text-[#A78BFA] text-xs sm:text-sm transition-colors duration-200 focus:outline-none focus-visible:underline"
-                    >
-                      {row.label}
-                    </a>
-                  ) : (
-                    <span className="text-zinc-300 text-xs sm:text-sm">
-                      {row.label}
-                    </span>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* ── CENTER: PORTRAIT (Arched Top, Radial Glow) ── */}
-          <div className="flex justify-center my-4 lg:my-0">
-            <div className="relative w-full max-w-[200px] sm:max-w-[220px]">
-              {/* Purple radial glow behind */}
-              <div
-                className="absolute -inset-4 rounded-full bg-gradient-to-tr from-[#7C3AED]/30 via-[#A78BFA]/20 to-transparent blur-2xl pointer-events-none select-none"
-                aria-hidden="true"
-              />
-
-              {/* Arched container: border-radius 999px 999px 16px 16px */}
-              <div
-                className="relative aspect-[3/4] w-full overflow-hidden border border-[rgba(167,139,250,0.25)] bg-[#171725] shadow-xl"
-                style={{ borderRadius: '999px 999px 16px 16px' }}
-              >
-                {!portraitError ? (
-                  <Image
-                    src="/images/protrait.png"
-                    alt={`${profile.name} - Creative Developer portrait`}
-                    fill
-                    sizes="220px"
-                    className="object-cover object-[center_15%]"
-                    onError={() => setPortraitError(true)}
-                  />
-                ) : (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center text-zinc-600 gap-2 font-mono text-xs">
-                    <span className="text-4xl text-[#A78BFA]/40 font-display">
-                      CD
-                    </span>
-                    <span>PORTRAIT</span>
-                  </div>
-                )}
+                ))}
               </div>
             </div>
-          </div>
 
-          {/* ── RIGHT: LET'S CONNECT ── */}
-          <div className="space-y-6 lg:text-right flex flex-col lg:items-end">
-            <div className="flex items-center gap-2">
-              <h2 className="font-display uppercase text-2xl sm:text-3xl text-[#A78BFA] tracking-tight">
-                LET&apos;S CONNECT
-              </h2>
-              <span className="text-[#A78BFA] animate-twinkle text-sm" aria-hidden="true">
-                ✦
-              </span>
-            </div>
+            {/* ── CENTER: PORTRAIT (Arched Top, Radial Glow) ── */}
+            <div className="flex justify-center my-4 lg:my-0">
+              <div className="relative w-full max-w-[200px] sm:max-w-[220px]">
+                {/* Purple radial glow behind */}
+                <div
+                  className="absolute -inset-4 rounded-full bg-gradient-to-tr from-[#7C3AED]/30 via-[#A78BFA]/20 to-transparent blur-2xl pointer-events-none select-none"
+                  aria-hidden="true"
+                />
 
-            {/* Row of 4 social icon buttons (40px circle) */}
-            <div className="flex items-center gap-3">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Connect on ${social.label}`}
-                  className="w-10 h-10 rounded-full border border-white/10 hover:border-[rgba(167,139,250,0.5)] bg-white/[0.02] hover:bg-[rgba(167,139,250,0.1)] text-zinc-400 hover:text-[#A78BFA] flex items-center justify-center transition-all duration-300 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8B5CF6]"
+                {/* Arched container: border-radius 999px 999px 16px 16px */}
+                <div
+                  className="relative aspect-[3/4] w-full overflow-hidden border border-[rgba(167,139,250,0.25)] bg-[#171725] shadow-xl"
+                  style={{ borderRadius: '999px 999px 16px 16px' }}
                 >
-                  <SocialIcon type={social.icon} />
-                </a>
-              ))}
+                  {!portraitError ? (
+                    <Image
+                      src="/images/protrait.png"
+                      alt={`${profile.name} - Creative Developer portrait`}
+                      fill
+                      sizes="220px"
+                      className="object-cover object-[center_15%]"
+                      onError={() => setPortraitError(true)}
+                    />
+                  ) : (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center text-zinc-600 gap-2 font-mono text-xs">
+                      <span className="text-4xl text-[#A78BFA]/40 font-display">
+                        CD
+                      </span>
+                      <span>PORTRAIT</span>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
 
-            {/* Mono tag beneath */}
-            <div className="font-mono text-[11px] text-zinc-500 tracking-wider">
-              {footerTagline}
+            {/* ── RIGHT: LET'S CONNECT ── */}
+            <div className="space-y-6 lg:text-right flex flex-col lg:items-end">
+              <div className="flex items-center gap-2">
+                <h2 className="font-display uppercase text-2xl sm:text-3xl text-[#A78BFA] tracking-tight">
+                  LET&apos;S CONNECT
+                </h2>
+                <span className="text-[#A78BFA] animate-sparkle text-sm" aria-hidden="true">
+                  ✦
+                </span>
+              </div>
+
+              {/* Row of 4 social icon buttons (40px circle) */}
+              <div className="flex items-center gap-3">
+                {socialLinks.map((social) => (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Connect on ${social.label}`}
+                    className="w-10 h-10 rounded-full border border-white/10 hover:border-[rgba(167,139,250,0.5)] bg-white/[0.02] hover:bg-[rgba(167,139,250,0.1)] text-zinc-400 hover:text-[#A78BFA] flex items-center justify-center transition-all duration-300 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8B5CF6]"
+                  >
+                    <SocialIcon type={social.icon} />
+                  </a>
+                ))}
+              </div>
+
+              {/* Mono tag beneath */}
+              <div className="font-mono text-[11px] text-zinc-500 tracking-wider">
+                {footerTagline}
+              </div>
             </div>
+
+          </div>
+        </div>
+
+        {/* ── REAL FOOTER BAR UNDER CARD ── */}
+        <div className="border-t border-[#A78BFA]/15 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-mono text-zinc-500">
+          <div>
+            © 2026 {profile.name}. All rights reserved.
           </div>
 
-        </div>
-      </div>
-
-      {/* ── REAL FOOTER BAR UNDER CARD ── */}
-      <div className="border-t border-white/5 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-mono text-zinc-500">
-        <div>
-          © 2026 {profile.name}. All rights reserved.
-        </div>
-
-        <div className="flex items-center gap-2.5 text-zinc-400">
-          <span className="pulse-dot-purple" aria-hidden="true" />
-          <span>Available for freelance work</span>
+          <div className="flex items-center gap-2.5 text-zinc-400">
+            <span className="w-2 h-2 rounded-full bg-[#7b5ce0] animate-pulse-glow" aria-hidden="true" />
+            <span>Available for freelance work</span>
+          </div>
         </div>
       </div>
     </footer>

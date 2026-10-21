@@ -3,11 +3,17 @@
 import React from 'react';
 import Image from 'next/image';
 import { motion, useReducedMotion } from 'framer-motion';
-import Sparkle from './hero/Sparkle';
 import OrbitLine from './hero/OrbitLine';
 import OrbitBadge from './hero/OrbitBadge';
 import DustBurst from './hero/DustBurst';
 import NoiseOverlay from './hero/NoiseOverlay';
+
+// The portrait PNG is cropped at the shoulders, so its left/right/bottom edges are hard cuts.
+// Fade all three so the dark sweater dissolves into the background (like the template).
+const PORTRAIT_SIDE_FADE =
+  'linear-gradient(to right, transparent 0%, #000 16%, #000 84%, transparent 100%)';
+const PORTRAIT_BOTTOM_FADE =
+  'linear-gradient(to bottom, #000 0%, #000 56%, transparent 100%)';
 
 export default function Hero() {
   const shouldReduceMotion = useReducedMotion();
@@ -27,10 +33,10 @@ export default function Hero() {
   };
 
   const stats = [
-    { value: '4+', label: 'YEARS EXPERIENCE', left: '27%' },
-    { value: '40+', label: 'PROJECTS DELIVERED', left: '41.5%' },
-    { value: '25+', label: 'HAPPY CLIENTS', left: '56.5%' },
-    { value: '10+', label: 'TECHNOLOGIES', left: '72.5%' },
+    { value: '4+', label: 'YEARS EXPERIENCE' },
+    { value: '40+', label: 'PROJECTS DELIVERED' },
+    { value: '25+', label: 'HAPPY CLIENTS' },
+    { value: '10+', label: 'TECHNOLOGIES' },
   ];
 
   return (
@@ -52,67 +58,12 @@ export default function Hero() {
           className="relative w-full aspect-[3/2] select-none"
           style={{ containerType: 'inline-size' }}
         >
-          {/* ── 1. Eyebrow (x 4%, y 7%) ── */}
-          <motion.div
-            custom={0}
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            className="absolute flex items-center z-30"
-            style={{
-              left: '4%',
-              top: '7%',
-            }}
-          >
-            <span
-              className="inline-block bg-[#b9a6ff]"
-              style={{ width: '24px', height: '1px' }}
-              aria-hidden="true"
-            />
-            <span
-              className="font-sans font-medium uppercase text-[#b9a6ff]"
-              style={{
-                marginLeft: '10px',
-                fontSize: 'clamp(10px, 1.4cqw, 20px)',
-                letterSpacing: '0.2em',
-              }}
-            >
-              CREATIVE DEVELOPER
-            </span>
-          </motion.div>
-
-          {/* ── 2. Top-Right Label (right edge at x 95%, y 7%) ── */}
-          <motion.div
-            custom={1}
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            className="absolute flex items-center z-30"
-            style={{
-              right: '5%',
-              top: '7%',
-            }}
-          >
-            <span
-              className="font-sans font-medium uppercase text-[#f4f4f6]"
-              style={{
-                fontSize: 'clamp(10px, 1.3cqw, 18px)',
-                letterSpacing: '0.15em',
-              }}
-            >
-              AVAILABLE FOR FREELANCE
-            </span>
-            <span style={{ marginLeft: '12px' }}>
-              <Sparkle radius={6} color="#9a80f0" className="animate-sparkle" />
-            </span>
-          </motion.div>
-
-          {/* ── 6. Dust Burst Behind Portrait (center: 75%, 38%) ── */}
+          {/* ── 6. Dust Burst Behind Portrait (center: 73.5%, 35%) ── */}
           <div
             className="absolute z-10"
             style={{
-              left: '75%',
-              top: '38%',
+              left: '73.5%',
+              top: '35%',
             }}
           >
             <div
@@ -126,7 +77,11 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* ── 5. Portrait Cutout (center at x ~70%, width ~28%, y ~13% down to ~88%) ── */}
+          {/* ── 5. Portrait Cutout ──
+              Aligned to the headline rows: hair-top = top of CREATIVE (7.2cqw),
+              chin = bottom of CREATIVE, neck/shoulders sit in the DEVELOPER row.
+              Box uses the PNG's own aspect ratio (524x693) so nothing is letterboxed.
+              The image ends well above the divider, so the stats row sits on clean black. */}
           <motion.div
             initial={{ opacity: 0, scale: shouldReduceMotion ? 1 : 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -137,28 +92,41 @@ export default function Hero() {
             }}
             className="absolute z-15 pointer-events-none select-none"
             style={{
-              left: '56%',
-              width: '28%',
-              top: '13%',
-              height: '75%',
+              left: '58.3%',
+              top: '7.2cqw',
+              width: '25.5cqw',
+              aspectRatio: '524 / 693',
             }}
           >
+            {/* drop-shadow sits OUTSIDE the masks, otherwise the mask clips the glow flat at the box edge */}
             <div
               className="relative w-full h-full"
-              style={{
-                maskImage: 'linear-gradient(to bottom, #000000 68%, transparent 100%)',
-                WebkitMaskImage: 'linear-gradient(to bottom, #000000 68%, transparent 100%)',
-                filter: 'drop-shadow(0 0 40px rgba(123,92,224,0.35))',
-              }}
+              style={{ filter: 'drop-shadow(0 0 40px rgba(123,92,224,0.35))' }}
             >
-              <Image
-                src="/hero-portrait.png"
-                alt="Creative Developer Portrait Cutout"
-                fill
-                priority
-                sizes="(min-width: 768px) 450px, 90vw"
-                className="object-contain object-bottom"
-              />
+              <div
+                className="relative w-full h-full"
+                style={{
+                  maskImage: PORTRAIT_SIDE_FADE,
+                  WebkitMaskImage: PORTRAIT_SIDE_FADE,
+                }}
+              >
+                <div
+                  className="relative w-full h-full"
+                  style={{
+                    maskImage: PORTRAIT_BOTTOM_FADE,
+                    WebkitMaskImage: PORTRAIT_BOTTOM_FADE,
+                  }}
+                >
+                  <Image
+                    src="/hero-portrait.png"
+                    alt="Creative Developer Portrait Cutout"
+                    fill
+                    priority
+                    sizes="(min-width: 768px) 26vw, 90vw"
+                    className="object-contain object-bottom"
+                  />
+                </div>
+              </div>
             </div>
           </motion.div>
 
@@ -187,7 +155,7 @@ export default function Hero() {
                 initial="hidden"
                 animate="visible"
                 style={{
-                  height: '24.5cqw',
+                  height: '21.1cqw',
                 }}
               >
                 <span
@@ -227,7 +195,7 @@ export default function Hero() {
           </div>
 
           {/* Overlapping "Portfolio" Script Word:
-              Solid violet-400, left edge at x 29%, top at y 65%, overlapping bottom edge of DEVELOPER under V-E-L */}
+              Solid violet-400, left edge at x 29%, top at y 60%, overlapping bottom edge of DEVELOPER under V-E-L */}
           <motion.div
             custom={4}
             variants={fadeUp}
@@ -236,7 +204,7 @@ export default function Hero() {
             className="absolute z-35 pointer-events-none select-none"
             style={{
               left: '29%',
-              top: '65%',
+              top: '60%',
             }}
           >
             <div
@@ -292,8 +260,8 @@ export default function Hero() {
               className="font-mono font-medium text-[#b9a6ff]"
               style={{
                 marginTop: '1.2cqw',
-                fontSize: 'clamp(9px, 1.25cqw, 18px)',
-                letterSpacing: '0.1em',
+                fontSize: 'clamp(9px, 1cqw, 15px)',
+                letterSpacing: '0.06em',
               }}
             >
               &lt;/ CODE, DESIGN, DEPLOY /&gt;
@@ -378,64 +346,54 @@ export default function Hero() {
             }}
           />
 
-          {/* ── 11. Stats Row (y 89.5%) ── */}
-          {stats.map((stat, idx) => (
-            <motion.div
-              key={stat.label}
-              custom={6 + idx}
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              className="absolute z-30 flex flex-col"
-              style={{
-                left: stat.left,
-                top: '89.5%',
-              }}
-            >
-              <span
-                className="font-sans font-bold text-[#9a80f0] leading-none"
-                style={{
-                  fontSize: 'clamp(16px, 2.3cqw, 33px)',
-                }}
+          {/* ── 11. Stats Row (y 89.5%) — same left/width as the divider, evenly distributed ── */}
+          <div
+            className="absolute z-30 flex items-start justify-between"
+            style={{
+              left: '26%',
+              width: '58%',
+              top: '89.5%',
+            }}
+          >
+            {stats.map((stat, idx) => (
+              <motion.div
+                key={stat.label}
+                custom={6 + idx}
+                variants={fadeUp}
+                initial="hidden"
+                animate="visible"
+                className="flex flex-col"
               >
-                {stat.value}
-              </span>
-              <span
-                className="font-sans font-medium uppercase text-[#a8a5b8] whitespace-nowrap"
-                style={{
-                  marginTop: '4px',
-                  fontSize: 'clamp(8px, 1cqw, 14.5px)',
-                  letterSpacing: '0.12em',
-                }}
-              >
-                {stat.label}
-              </span>
-            </motion.div>
-          ))}
+                <span
+                  className="font-sans font-bold text-[#9a80f0] leading-none"
+                  style={{
+                    fontSize: 'clamp(16px, 2.3cqw, 33px)',
+                  }}
+                >
+                  {stat.value}
+                </span>
+                <span
+                  className="font-sans font-medium uppercase text-[#a8a5b8] whitespace-nowrap"
+                  style={{
+                    marginTop: '4px',
+                    fontSize: 'clamp(8px, 1cqw, 14.5px)',
+                    letterSpacing: '0.12em',
+                  }}
+                >
+                  {stat.label}
+                </span>
+              </motion.div>
+            ))}
+          </div>
 
         </div>
       </div>
 
       {/* ══════════════════════════════════════════════════════════════════════
           MOBILE: BEAUTIFULLY STACKED RESPONSIVE LAYOUT (< 768px)
-          eyebrow -> headline -> portrait -> tagline -> badge -> stats grid
+          headline -> portrait -> tagline -> badge -> stats grid
           ══════════════════════════════════════════════════════════════════════ */}
-      <div className="block md:hidden w-full px-5 py-8 z-20 relative max-w-md mx-auto select-none">
-        {/* Mobile Header: Eyebrow + Availability */}
-        <div className="flex items-center justify-between text-xs font-sans mb-8">
-          <div className="flex items-center gap-2">
-            <span className="w-5 h-[1px] bg-[#b9a6ff]" />
-            <span className="font-medium tracking-widest uppercase text-[#b9a6ff] text-[11px]">
-              CREATIVE DEVELOPER
-            </span>
-          </div>
-
-          <div className="flex items-center gap-1.5 text-[11px] font-medium tracking-wider uppercase text-[#f4f4f6]">
-            <span>AVAILABLE</span>
-            <Sparkle radius={4} color="#9a80f0" />
-          </div>
-        </div>
-
+      <div className="block md:hidden w-full px-5 pt-24 pb-8 z-20 relative max-w-md mx-auto select-none">
         {/* Mobile Headline */}
         <div className="relative mb-8">
           <h1
@@ -446,7 +404,7 @@ export default function Hero() {
               className="creative-gradient-text block text-[4.4rem] leading-[0.8] origin-top-left"
               style={{
                 transform: 'scale(0.96, 1.45)',
-                marginBottom: '1.2rem',
+                marginBottom: '1.8rem',
               }}
             >
               CREATIVE
@@ -477,20 +435,32 @@ export default function Hero() {
           {/* Cutout Portrait */}
           <div
             className="relative w-full h-full"
-            style={{
-              maskImage: 'linear-gradient(to bottom, #000000 70%, transparent 100%)',
-              WebkitMaskImage: 'linear-gradient(to bottom, #000000 70%, transparent 100%)',
-              filter: 'drop-shadow(0 0 30px rgba(123,92,224,0.35))',
-            }}
+            style={{ filter: 'drop-shadow(0 0 30px rgba(123,92,224,0.35))' }}
           >
-            <Image
-              src="/hero-portrait.png"
-              alt="Creative Developer Portrait Cutout"
-              fill
-              priority
-              sizes="280px"
-              className="object-contain object-bottom"
-            />
+            <div
+              className="relative w-full h-full"
+              style={{
+                maskImage: PORTRAIT_SIDE_FADE,
+                WebkitMaskImage: PORTRAIT_SIDE_FADE,
+              }}
+            >
+              <div
+                className="relative w-full h-full"
+                style={{
+                  maskImage: PORTRAIT_BOTTOM_FADE,
+                  WebkitMaskImage: PORTRAIT_BOTTOM_FADE,
+                }}
+              >
+                <Image
+                  src="/hero-portrait.png"
+                  alt="Creative Developer Portrait Cutout"
+                  fill
+                  priority
+                  sizes="280px"
+                  className="object-contain object-bottom"
+                />
+              </div>
+            </div>
           </div>
 
           {/* Circular Badge pinned on Mobile */}

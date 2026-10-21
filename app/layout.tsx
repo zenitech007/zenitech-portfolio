@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Anton, Allura, Space_Grotesk, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { profile } from '@/src/content/profile';
+import Header from '@/components/Header';
 
 const anton = Anton({
   variable: '--font-anton',
@@ -87,7 +88,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark scroll-smooth">
+    <html lang="en" className="dark scroll-smooth scroll-pt-20">
       <body
         className={`${anton.variable} ${allura.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased bg-[#08070d] text-[#f4f4f6] font-sans min-h-screen selection:bg-[#7b5ce0] selection:text-white`}
       >
@@ -98,6 +99,7 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
+        <Header />
         {children}
       </body>
     </html>
