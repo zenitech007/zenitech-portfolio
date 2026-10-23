@@ -1,8 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import Image from 'next/image';
-import { motion, useReducedMotion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useInView, useReducedMotion } from 'framer-motion';
 import { contactDetails, ContactIconType } from '@/src/content/contact';
 import { socialLinks, footerTagline, SocialIconType } from '@/src/content/socials';
 import { profile } from '@/src/content/profile';
@@ -196,9 +195,135 @@ function WaveBackground() {
   );
 }
 
-export default function ContactFooter() {
-  const [portraitError, setPortraitError] = useState(false);
+/* ── Terminal-style code card (replaces the portrait in the footer) ──
+   Lines type in one by one when the footer scrolls into view; the cursor blinks.
+   Values come from src/content/profile.ts so it never goes out of date. */
+const SYNTAX = {
+  keyword: 'text-[#9a80f0]',
+  key: 'text-[#c4b5fd]',
+  string: 'text-[#e9e4ff]',
+  punct: 'text-[#6f6a8c]',
+  plain: 'text-[#d7ccff]',
+  prompt: 'text-[#8fd9b6]',
+} as const;
 
+type Token = { text: string; className: string };
+
+const baseLocation = profile.location.split('·')[0].trim();
+
+const kv = (key: string, value: string): Token[] => [
+  { text: '  ', className: '' },
+  { text: key, className: SYNTAX.key },
+  { text: ': ', className: SYNTAX.punct },
+  { text: `"${value}"`, className: SYNTAX.string },
+  { text: ',', className: SYNTAX.punct },
+];
+
+const arrayItem = (value: string): Token[] => [
+  { text: '    ', className: '' },
+  { text: `"${value}"`, className: SYNTAX.string },
+  { text: ',', className: SYNTAX.punct },
+];
+
+const TERMINAL_LINES: Token[][] = [
+  [
+    { text: 'const ', className: SYNTAX.keyword },
+    { text: 'developer', className: SYNTAX.plain },
+    { text: ' = {', className: SYNTAX.punct },
+  ],
+  kv('name', profile.name),
+  kv('role', profile.role),
+  kv('base', baseLocation),
+  [
+    { text: '  ', className: '' },
+    { text: 'stack', className: SYNTAX.key },
+    { text: ': [', className: SYNTAX.punct },
+  ],
+  arrayItem('Next.js'),
+  arrayItem('TypeScript'),
+  arrayItem('Tailwind'),
+  [{ text: '  ],', className: SYNTAX.punct }],
+  kv('status', 'Available for freelance'),
+  [{ text: '};', className: SYNTAX.punct }],
+];
+
+const LINE_STAGGER = 0.09;
+
+function TerminalCard() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  const reduceMotion = useReducedMotion();
+  const show = inView || Boolean(reduceMotion);
+
+  const lineMotion = (index: number) => ({
+    initial: { opacity: 0, x: reduceMotion ? 0 : -6 },
+    animate: show ? { opacity: 1, x: 0 } : undefined,
+    transition: {
+      duration: reduceMotion ? 0 : 0.25,
+      delay: reduceMotion ? 0 : 0.15 + index * LINE_STAGGER,
+    },
+  });
+
+  return (
+    <div
+      ref={ref}
+      role="img"
+      aria-label={`${profile.name}, ${profile.role}, based in ${baseLocation}. Works with Next.js, TypeScript and Tailwind. Available for freelance.`}
+      className="relative w-full max-w-[340px] sm:max-w-[360px]"
+    >
+      {/* Purple glow behind the window */}
+      <div
+        className="absolute -inset-3 rounded-2xl bg-gradient-to-tr from-[#7C3AED]/30 via-[#A78BFA]/15 to-transparent blur-2xl pointer-events-none select-none"
+        aria-hidden="true"
+      />
+
+      <div
+        className="relative overflow-hidden rounded-xl border border-[#A78BFA]/25 bg-[#0b0914]/85 shadow-[0_0_40px_rgba(123,92,224,0.25)] backdrop-blur-sm"
+        aria-hidden="true"
+      >
+        {/* Title bar */}
+        <div className="flex items-center gap-3 border-b border-white/[0.06] bg-white/[0.03] px-4 py-2.5">
+          <div className="flex items-center gap-1.5">
+            <span className="h-2.5 w-2.5 rounded-full bg-[#7b5ce0]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#9a80f0]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#c4b5fd]" />
+          </div>
+          <span className="font-mono text-[11px] tracking-wide text-[#6f6a8c]">developer.ts</span>
+        </div>
+
+        {/* Code */}
+        <div className="overflow-x-auto px-4 py-4 font-mono text-[11px] leading-[1.75] sm:text-[12px]">
+          {TERMINAL_LINES.map((tokens, i) => (
+            <motion.div key={i} className="whitespace-pre" {...lineMotion(i)}>
+              {tokens.map((token, j) => (
+                <span key={j} className={token.className}>
+                  {token.text}
+                </span>
+              ))}
+            </motion.div>
+          ))}
+
+          {/* Prompt + blinking cursor */}
+          <motion.div className="mt-2 whitespace-pre" {...lineMotion(TERMINAL_LINES.length)}>
+            <span className={SYNTAX.prompt}>$ </span>
+            <span className={SYNTAX.string}>npm run hire-me</span>
+            <motion.span
+              className="ml-1 inline-block h-[1.05em] w-[0.55em] translate-y-[0.2em] bg-[#a78bfa]"
+              animate={reduceMotion ? { opacity: 1 } : { opacity: [1, 1, 0, 0] }}
+              transition={
+                reduceMotion
+                  ? { duration: 0 }
+                  : { duration: 1.1, repeat: Infinity, times: [0, 0.5, 0.5, 1], ease: 'linear' }
+              }
+            />
+          </motion.div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function ContactFooter() {
   return (
     <footer
       id="contact"
@@ -252,39 +377,9 @@ export default function ContactFooter() {
               </div>
             </div>
 
-            {/* ── CENTER: PORTRAIT (Arched Top, Radial Glow) ── */}
+            {/* ── CENTER: TERMINAL CODE CARD ── */}
             <div className="flex justify-center my-4 lg:my-0">
-              <div className="relative w-full max-w-[200px] sm:max-w-[220px]">
-                {/* Purple radial glow behind */}
-                <div
-                  className="absolute -inset-4 rounded-full bg-gradient-to-tr from-[#7C3AED]/30 via-[#A78BFA]/20 to-transparent blur-2xl pointer-events-none select-none"
-                  aria-hidden="true"
-                />
-
-                {/* Arched container: border-radius 999px 999px 16px 16px */}
-                <div
-                  className="relative aspect-[3/4] w-full overflow-hidden border border-[rgba(167,139,250,0.25)] bg-[#171725] shadow-xl"
-                  style={{ borderRadius: '999px 999px 16px 16px' }}
-                >
-                  {!portraitError ? (
-                    <Image
-                      src="/images/protrait.png"
-                      alt={`${profile.name} - Creative Developer portrait`}
-                      fill
-                      sizes="220px"
-                      className="object-cover object-[center_15%]"
-                      onError={() => setPortraitError(true)}
-                    />
-                  ) : (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center text-zinc-600 gap-2 font-mono text-xs">
-                      <span className="text-4xl text-[#A78BFA]/40 font-display">
-                        CD
-                      </span>
-                      <span>PORTRAIT</span>
-                    </div>
-                  )}
-                </div>
-              </div>
+              <TerminalCard />
             </div>
 
             {/* ── RIGHT: LET'S CONNECT ── */}
