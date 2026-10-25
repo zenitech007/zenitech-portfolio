@@ -39,21 +39,101 @@ export default function Hero() {
     { value: '10+', label: 'TECHNOLOGIES' },
   ];
 
+  // Name lockup used by BOTH layouts. Everything is sized in cqw of its own wrapper
+  // (wrapper width = 100cqw), so it fills any column width without breakpoints.
+  // Anton widths: OLANREWAJU = 4.78em, SORUNKE = 3.21em.
+  const nameLockup = (
+    <div className="relative w-full" style={{ containerType: 'inline-size' }}>
+      <div className="relative" style={{ height: '63cqw' }}>
+        <h1
+          aria-label="Olanrewaju Sorunke, ZeniTech"
+          className="font-display font-normal uppercase select-none"
+        >
+          {/* Line 1: tall, condensed, gradient */}
+          <motion.div
+            custom={2}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            aria-hidden="true"
+            style={{ height: '33.8cqw' }}
+          >
+            <span
+              className="creative-gradient-text block"
+              style={{
+                fontSize: '20.6cqw',
+                lineHeight: 0.82,
+                letterSpacing: '-0.01em',
+                transform: 'scale(1, 1.9)',
+                transformOrigin: 'top left',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              OLANREWAJU
+            </span>
+          </motion.div>
+
+          {/* Line 2: solid white, touches line 1 */}
+          <motion.div
+            custom={3}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            aria-hidden="true"
+            style={{ marginTop: '0.4cqw' }}
+          >
+            <span
+              className="block text-[#f4f4f6]"
+              style={{
+                fontSize: '24cqw',
+                lineHeight: 0.82,
+                letterSpacing: '-0.01em',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              SORUNKE
+            </span>
+          </motion.div>
+        </h1>
+
+        {/* Script word overlapping the bottom edge of SORUNKE */}
+        <motion.div
+          custom={4}
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          className="pointer-events-none absolute select-none"
+          style={{ left: '57cqw', top: '49.5cqw' }}
+          aria-hidden="true"
+        >
+          <div style={{ transform: 'rotate(-6deg)', transformOrigin: 'left center' }}>
+            <span
+              className="portfolio-script block whitespace-nowrap leading-none text-[#9a80f0]"
+              style={{ fontSize: '14cqw' }}
+            >
+              ZeniTech
+            </span>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+
   return (
     <section
       id="home"
-      aria-label="Creative Developer Hero Section"
-      className="relative w-full min-h-screen bg-[#08070d] hero-atmosphere flex items-center justify-center overflow-hidden"
+      aria-label="Introduction"
+      className="relative w-full bg-[#08070d] hero-atmosphere overflow-hidden lg:flex lg:justify-center"
     >
       {/* ── Film-Grain Noise Overlay (feTurbulence) ── */}
       <NoiseOverlay />
 
       {/* ══════════════════════════════════════════════════════════════════════
-          DESKTOP: PIXEL-PERFECT COMPOSITION FRAME (>= 768px)
+          DESKTOP: PIXEL-PERFECT COMPOSITION FRAME (>= 1024px)
           Aspect ratio 3/2, max 1440px, container-type: inline-size
           All coordinates positioned in % of frame, all fonts in cqw
           ══════════════════════════════════════════════════════════════════════ */}
-      <div className="hidden md:block w-full max-w-[1440px] h-full">
+      <div className="hidden lg:block w-full max-w-[1440px]">
         <div
           className="relative w-full aspect-[3/2] select-none"
           style={{ containerType: 'inline-size' }}
@@ -136,94 +216,13 @@ export default function Hero() {
           </div>
 
           {/* ── 3. Headline (left x 4%, top y 12%), z-index ABOVE portrait ── */}
+          {/* ── Headline: name lockup (x 4%, y 12%, 54cqw wide) ── */}
           <div
             className="absolute z-30 pointer-events-none"
-            style={{
-              left: '4%',
-              top: '12%',
-              width: '58%',
-            }}
+            style={{ left: '4%', top: '12%', width: '54cqw' }}
           >
-            <h1
-              aria-label="Creative Developer Portfolio"
-              className="relative flex flex-col font-display font-normal uppercase select-none"
-            >
-              {/* Line 1: CREATIVE — Taller than DEVELOPER (~1.7x), gradient fill */}
-              <motion.div
-                custom={2}
-                variants={fadeUp}
-                initial="hidden"
-                animate="visible"
-                style={{
-                  height: '21.1cqw',
-                }}
-              >
-                <span
-                  className="creative-gradient-text block"
-                  style={{
-                    fontSize: '14.5cqw',
-                    lineHeight: 0.82,
-                    letterSpacing: '-0.01em',
-                    transform: 'scale(0.96, 1.7)',
-                    transformOrigin: 'top left',
-                  }}
-                >
-                  CREATIVE
-                </span>
-              </motion.div>
-
-              {/* Line 2: DEVELOPER — Solid #f4f4f6, touches bottom of CREATIVE */}
-              <motion.div
-                custom={3}
-                variants={fadeUp}
-                initial="hidden"
-                animate="visible"
-                className="relative"
-              >
-                <span
-                  className="block text-[#f4f4f6]"
-                  style={{
-                    fontSize: '14.5cqw',
-                    lineHeight: 0.82,
-                    letterSpacing: '-0.01em',
-                  }}
-                >
-                  DEVELOPER
-                </span>
-              </motion.div>
-            </h1>
+            {nameLockup}
           </div>
-
-          {/* Overlapping "Portfolio" Script Word:
-              Solid violet-400, left edge at x 29%, top at y 60%, overlapping bottom edge of DEVELOPER under V-E-L */}
-          <motion.div
-            custom={4}
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            className="absolute z-35 pointer-events-none select-none"
-            style={{
-              left: '29%',
-              top: '60%',
-            }}
-          >
-            <div
-              style={{
-                transform: 'rotate(-6deg)',
-                transformOrigin: 'left center',
-              }}
-            >
-              <span
-                className="portfolio-script block text-[#9a80f0] whitespace-nowrap leading-none"
-                style={{
-                  fontSize: 'clamp(38px, 8.5cqw, 126px)',
-                }}
-                aria-hidden="true"
-              >
-                Portfolio
-              </span>
-            </div>
-          </motion.div>
 
           {/* ── 4. Left Text Block (x 4%) ── */}
           <div
@@ -390,116 +389,78 @@ export default function Hero() {
       </div>
 
       {/* ══════════════════════════════════════════════════════════════════════
-          MOBILE: BEAUTIFULLY STACKED RESPONSIVE LAYOUT (< 768px)
-          headline -> portrait -> tagline -> badge -> stats grid
+          MOBILE + TABLET (< 1024px)
+          Phones: one column  → headline, portrait, tagline, stats (2x2)
+          Tablets (>= 640px): two columns → headline + copy | portrait, stats (4 across)
           ══════════════════════════════════════════════════════════════════════ */}
-      <div className="block md:hidden w-full px-5 pt-24 pb-8 z-20 relative max-w-md mx-auto select-none">
-        {/* Mobile Headline */}
-        <div className="relative mb-8">
-          <h1
-            aria-label="Creative Developer Portfolio"
-            className="flex flex-col font-display uppercase tracking-tight select-none"
-          >
-            <span
-              className="creative-gradient-text block text-[4.4rem] leading-[0.8] origin-top-left"
-              style={{
-                transform: 'scale(0.96, 1.45)',
-                marginBottom: '1.8rem',
-              }}
-            >
-              CREATIVE
-            </span>
-            <span className="text-[#f4f4f6] block text-[4rem] leading-[0.82]">
-              DEVELOPER
-            </span>
-          </h1>
+      <div className="relative z-20 mx-auto w-full max-w-4xl select-none px-5 pb-12 pt-24 sm:px-8 sm:pb-16 sm:pt-28 lg:hidden">
+        <div className="grid grid-cols-1 gap-y-8 sm:grid-cols-[1.12fr_1fr] sm:items-center sm:gap-x-8">
+          {/* Headline */}
+          <div className="sm:col-start-1 sm:row-start-1">{nameLockup}</div>
 
-          {/* Script Word: Portfolio */}
+          {/* Portrait with dust burst + badge */}
           <div
-            className="absolute -bottom-6 left-12 z-30"
-            style={{ transform: 'rotate(-6deg)' }}
+            className="relative mx-auto w-full max-w-[300px] sm:col-start-2 sm:row-span-2 sm:row-start-1 sm:max-w-[380px]"
+            style={{ aspectRatio: '524 / 693' }}
           >
-            <span className="portfolio-script text-4xl text-[#9a80f0] block leading-none">
-              Portfolio
-            </span>
-          </div>
-        </div>
+            <div className="absolute inset-0 -z-10 flex scale-[1.35] items-center justify-center">
+              <DustBurst className="h-full w-full" />
+            </div>
 
-        {/* Mobile Portrait with Dust Burst */}
-        <div className="relative w-full aspect-[4/5] max-w-[280px] mx-auto my-8">
-          {/* Dust Burst behind */}
-          <div className="absolute inset-0 scale-125 -z-10 flex items-center justify-center">
-            <DustBurst className="w-full h-full" />
-          </div>
-
-          {/* Cutout Portrait */}
-          <div
-            className="relative w-full h-full"
-            style={{ filter: 'drop-shadow(0 0 30px rgba(123,92,224,0.35))' }}
-          >
             <div
-              className="relative w-full h-full"
-              style={{
-                maskImage: PORTRAIT_SIDE_FADE,
-                WebkitMaskImage: PORTRAIT_SIDE_FADE,
-              }}
+              className="relative h-full w-full"
+              style={{ filter: 'drop-shadow(0 0 30px rgba(123,92,224,0.35))' }}
             >
               <div
-                className="relative w-full h-full"
-                style={{
-                  maskImage: PORTRAIT_BOTTOM_FADE,
-                  WebkitMaskImage: PORTRAIT_BOTTOM_FADE,
-                }}
+                className="relative h-full w-full"
+                style={{ maskImage: PORTRAIT_SIDE_FADE, WebkitMaskImage: PORTRAIT_SIDE_FADE }}
               >
-                <Image
-                  src="/hero-portrait.png"
-                  alt="Creative Developer Portrait Cutout"
-                  fill
-                  priority
-                  sizes="280px"
-                  className="object-contain object-bottom"
-                />
+                <div
+                  className="relative h-full w-full"
+                  style={{ maskImage: PORTRAIT_BOTTOM_FADE, WebkitMaskImage: PORTRAIT_BOTTOM_FADE }}
+                >
+                  <Image
+                    src="/hero-portrait.png"
+                    alt="Olanrewaju Sorunke portrait"
+                    fill
+                    priority
+                    sizes="(min-width: 640px) 380px, 300px"
+                    className="object-contain object-bottom"
+                  />
+                </div>
               </div>
+            </div>
+
+            <div className="absolute -bottom-2 -right-1 z-30 h-20 w-20 sm:-right-3 sm:h-24 sm:w-24">
+              <OrbitBadge className="h-full w-full" />
             </div>
           </div>
 
-          {/* Circular Badge pinned on Mobile */}
-          <div className="absolute -bottom-3 -right-2 w-20 h-20 z-30">
-            <OrbitBadge className="w-full h-full" />
+          {/* Tagline, code line, availability */}
+          <div className="space-y-5 text-center sm:col-start-1 sm:row-start-2 sm:text-left">
+            <p className="font-sans text-sm font-medium uppercase leading-relaxed tracking-wider text-[#f4f4f6] sm:text-base">
+              I DESIGN &amp; CODE<br />
+              DIGITAL EXPERIENCES<br />
+              THAT INSPIRE.
+            </p>
+            <p className="font-mono text-xs tracking-wide text-[#b9a6ff] sm:text-sm">
+              &lt;/ CODE, DESIGN, DEPLOY /&gt;
+            </p>
+            <div className="mx-auto flex w-fit items-center gap-2.5 rounded-full border border-[#7b5ce0]/30 bg-[#120d22]/70 px-4 py-3 sm:mx-0">
+              <span className="h-2 w-2 rounded-full bg-[#7b5ce0] animate-pulse-glow" />
+              <span className="font-sans text-xs font-medium uppercase tracking-wider text-[#f4f4f6]">
+                AVAILABLE FOR PROJECTS
+              </span>
+            </div>
           </div>
         </div>
 
-        {/* Mobile Tagline & Code */}
-        <div className="space-y-3 mb-8 text-center sm:text-left">
-          <p className="font-sans font-medium uppercase text-sm tracking-wider text-[#f4f4f6] leading-relaxed">
-            I DESIGN &amp; CODE<br />
-            DIGITAL EXPERIENCES<br />
-            THAT INSPIRE.
-          </p>
-          <p className="font-mono text-xs text-[#b9a6ff] tracking-wide">
-            &lt;/ CODE, DESIGN, DEPLOY /&gt;
-          </p>
-        </div>
-
-        {/* Mobile "AVAILABLE FOR PROJECTS" Dot Label */}
-        <div className="flex items-center justify-center gap-2.5 py-3 px-4 rounded-full bg-[#120d22]/70 border border-[#7b5ce0]/30 w-fit mx-auto mb-8">
-          <span className="w-2 h-2 rounded-full bg-[#7b5ce0] animate-pulse-glow" />
-          <span className="font-sans font-medium uppercase text-xs tracking-wider text-[#f4f4f6]">
-            AVAILABLE FOR PROJECTS
-          </span>
-        </div>
-
-        {/* Mobile Divider Line */}
-        <div className="w-full h-[1px] bg-white/10 mb-8" />
-
-        {/* Mobile 2x2 Stats Grid */}
-        <div className="grid grid-cols-2 gap-6 text-center">
+        {/* Divider + stats */}
+        <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-8 border-t border-white/10 pt-8 sm:mt-12 sm:grid-cols-4">
           {stats.map((stat) => (
-            <div key={stat.label} className="flex flex-col items-center">
-              <span className="font-sans font-bold text-2xl text-[#9a80f0]">
-                {stat.value}
-              </span>
-              <span className="font-sans font-medium uppercase text-[10px] text-[#a8a5b8] tracking-widest mt-1">
+            <div key={stat.label} className="flex flex-col items-center sm:items-start">
+              <span className="font-sans text-3xl font-bold text-[#9a80f0] sm:text-4xl">{stat.value}</span>
+              <span className="mt-1 text-center font-sans text-[11px] font-medium uppercase tracking-widest text-[#a8a5b8] sm:text-left sm:text-xs">
                 {stat.label}
               </span>
             </div>

@@ -332,7 +332,7 @@ export default function ContactFooter() {
     >
       <WaveBackground />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-24 pb-12">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 lg:pt-24 pb-12">
         {/* ── SECTION 5: ONE FULL-WIDTH SURFACE CARD ── */}
         <div className="bg-[#12121C]/60 backdrop-blur-sm rounded-2xl border border-[#A78BFA]/15 p-8 sm:p-10 lg:p-12 mb-12 shadow-2xl relative overflow-hidden">
           {/* Ambient Subtle Glow */}
@@ -341,7 +341,7 @@ export default function ContactFooter() {
             aria-hidden="true"
           />
 
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-8 items-center">
+          <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-8 items-center">
 
             {/* ── LEFT: CONTACT ── */}
             <div className="space-y-6">
@@ -378,12 +378,12 @@ export default function ContactFooter() {
             </div>
 
             {/* ── CENTER: TERMINAL CODE CARD ── */}
-            <div className="flex justify-center my-4 lg:my-0">
+            <div className="flex justify-center my-2 md:order-3 md:col-span-2 lg:order-none lg:col-span-1 lg:my-0">
               <TerminalCard />
             </div>
 
             {/* ── RIGHT: LET'S CONNECT ── */}
-            <div className="space-y-6 lg:text-right flex flex-col lg:items-end">
+            <div className="space-y-6 md:order-2 lg:order-none lg:text-right flex flex-col lg:items-end">
               <div className="flex items-center gap-2">
                 <h2 className="font-display uppercase text-2xl sm:text-3xl text-[#A78BFA] tracking-tight">
                   LET&apos;S CONNECT

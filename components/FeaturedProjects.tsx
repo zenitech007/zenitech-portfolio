@@ -33,8 +33,8 @@ const CATEGORY_LABEL = Object.fromEntries(PROJECT_CATEGORIES.map((c) => [c.id, c
 /* ───────────────────────────── Project card ───────────────────────────── */
 
 // forwardRef so AnimatePresence (popLayout) can measure the card while it animates out
-const ProjectCard = React.forwardRef<HTMLDivElement, { project: FeaturedProject; order: number }>(
-  function ProjectCard({ project, order }, ref) {
+const ProjectCard = React.forwardRef<HTMLDivElement, { project: FeaturedProject; order: number; revealed: boolean }>(
+  function ProjectCard({ project, order, revealed }, ref) {
     const reduceMotion = useReducedMotion();
     const [imageError, setImageError] = useState(false);
     const accent = CATEGORY_ACCENT[project.category];
@@ -65,7 +65,11 @@ const ProjectCard = React.forwardRef<HTMLDivElement, { project: FeaturedProject;
         ref={ref}
         layout={reduceMotion ? false : true}
         initial={{ opacity: 0, scale: reduceMotion ? 1 : 0.92, y: reduceMotion ? 0 : 18 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
+        animate={
+          revealed
+            ? { opacity: 1, scale: 1, y: 0 }
+            : { opacity: 0, scale: reduceMotion ? 1 : 0.92, y: reduceMotion ? 0 : 18 }
+        }
         exit={{ opacity: 0, scale: reduceMotion ? 1 : 0.92 }}
         transition={{
           layout: { type: 'spring', stiffness: 280, damping: 30 },
@@ -225,7 +229,7 @@ export default function FeaturedProjects() {
     <section
       id="work"
       aria-labelledby="featured-projects-heading"
-      className="mx-auto max-w-7xl scroll-mt-20 border-b border-white/5 px-4 py-16 sm:px-6 sm:py-24 lg:px-8"
+      className="mx-auto max-w-7xl scroll-mt-20 border-b border-white/5 px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-24"
     >
       {/* ── Header row: label + view-all link ── */}
       <div className="mb-8 flex flex-col justify-between gap-4 sm:mb-10 sm:flex-row sm:items-end">
@@ -311,8 +315,14 @@ export default function FeaturedProjects() {
         className="grid min-h-[380px] grid-cols-1 items-stretch gap-6 md:grid-cols-2 lg:grid-cols-3"
       >
         <AnimatePresence mode="popLayout">
-          {(gridInView || reduceMotion) &&
-            visible.map((project, i) => <ProjectCard key={project.slug} project={project} order={i} />)}
+          {visible.map((project, i) => (
+            <ProjectCard
+              key={project.slug}
+              project={project}
+              order={i}
+              revealed={gridInView || Boolean(reduceMotion)}
+            />
+          ))}
         </AnimatePresence>
       </motion.div>
     </section>

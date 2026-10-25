@@ -48,8 +48,8 @@ export default function OrbitLine({ className = '' }: { className?: string }) {
       />
 
       {/* 2. Large 4-point sparkle at (688, 190), radius ~9 */}
+      <g transform="translate(688, 190)">
       <motion.g
-        transform="translate(688, 190)"
         animate={
           shouldReduceMotion
             ? { opacity: 1 }
@@ -66,10 +66,11 @@ export default function OrbitLine({ className = '' }: { className?: string }) {
       >
         <path d={sparkleD(9)} fill="#b9a6ff" />
       </motion.g>
+      </g>
 
       {/* 3. Small 4-point sparkle at (662, 227), radius ~5 */}
+      <g transform="translate(662, 227)">
       <motion.g
-        transform="translate(662, 227)"
         animate={
           shouldReduceMotion
             ? { opacity: 1 }
@@ -87,6 +88,7 @@ export default function OrbitLine({ className = '' }: { className?: string }) {
       >
         <path d={sparkleD(5)} fill="#b9a6ff" />
       </motion.g>
+      </g>
     </svg>
   );
 }

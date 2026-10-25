@@ -91,9 +91,9 @@ export default function ToolkitProcessCta() {
     <section
       id="process"
       aria-labelledby="toolkit-process-heading"
-      className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 scroll-mt-20 border-b border-white/5"
+      className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24 scroll-mt-20 border-b border-white/5"
     >
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
 
         {/* ── CARD A: MY TOOLKIT ── */}
         <div className="bg-[#12121C] rounded-2xl border border-white/5 p-6 sm:p-7 flex flex-col justify-between gap-6 hover:border-[rgba(167,139,250,0.25)] transition-colors duration-300">
@@ -179,7 +179,7 @@ export default function ToolkitProcessCta() {
         </div>
 
         {/* ── CARD C: CTA PANEL ── */}
-        <div className="relative rounded-2xl p-7 sm:p-8 flex flex-col justify-between overflow-hidden bg-gradient-to-br from-[#A78BFA] to-[#7C3AED] min-h-[360px] lg:min-h-full shadow-xl">
+        <div className="relative rounded-2xl p-7 sm:p-8 flex flex-col justify-between overflow-hidden bg-gradient-to-br from-[#A78BFA] to-[#7C3AED] min-h-[300px] md:col-span-2 lg:col-span-1 lg:min-h-full shadow-xl">
           {/* Subtle Background Pattern & Glow */}
           <div
             className="pointer-events-none absolute -right-10 -bottom-10 w-48 h-48 rounded-full bg-white/10 blur-2xl select-none"

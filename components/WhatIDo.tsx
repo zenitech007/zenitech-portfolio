@@ -84,7 +84,7 @@ export default function WhatIDo() {
     <section
       id="services"
       aria-labelledby="services-heading"
-      className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 scroll-mt-20 border-b border-white/5"
+      className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24 scroll-mt-20 border-b border-white/5"
     >
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_2.5fr] gap-10 lg:gap-12 items-start">
         {/* Left Column: Heading + Intro */}
