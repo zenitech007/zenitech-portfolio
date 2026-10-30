@@ -62,6 +62,16 @@ export const featuredProjects: readonly FeaturedProject[] = [
   },
   {
     index: '04',
+    slug: 'cable-logistics',
+    title: 'CABLE LOGISTICS',
+    subtitle: 'Global Freight & Procurement',
+    category: 'ecommerce',
+    artVariant: 1,
+    tags: ['Logistics & Freight', 'Motion & Canvas', 'Tailwind CSS'],
+    liveUrl: 'https://cable-logistics.vercel.app/',
+  },
+  {
+    index: '05',
     slug: 'switch-architecture',
     title: 'SWITCH ARCHITECTURE',
     subtitle: 'Engineering Portfolio & Blog Engine',
@@ -70,7 +80,7 @@ export const featuredProjects: readonly FeaturedProject[] = [
     liveUrl: 'https://switch-architect.vercel.app/',
   },
   {
-    index: '05',
+    index: '06',
     slug: 'safe-convert',
     title: 'SAFE CONVERT',
     subtitle: 'Privacy-First Image Converter',
@@ -79,7 +89,7 @@ export const featuredProjects: readonly FeaturedProject[] = [
     liveUrl: 'https://safe-convert-seven.vercel.app',
   },
   {
-    index: '06',
+    index: '07',
     slug: 'social-ui-template',
     title: 'SOCIAL-UI TEMPLATE',
     subtitle: 'Social-Style Portfolio with a 3D Scene',

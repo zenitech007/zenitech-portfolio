@@ -43,6 +43,21 @@ export const projects = [
         impact: "Delivered a visually striking, conversion-optimized storefront foundation that instantly establishes premium brand credibility. The modern, component-driven architecture ensures lightning-fast performance and provides a seamless, scalable pathway for the brand's upcoming full e-commerce launch."
     },
     {
+        title: "Cable Logistics — Global Freight & Procurement",
+        liveLink: "https://cable-logistics.vercel.app/",
+        techStack: [
+            "React",
+            "TypeScript",
+            "Tailwind CSS v4",
+            "Motion",
+            "Canvas Animation",
+            "Bilingual (EN/FR)"
+        ],
+        challenge: "Global logistics, freight forwarding, and procurement operations require a modern, trust-building digital storefront that communicates scale, multi-modal transport capabilities, and cargo tracking across international markets.",
+        solution: "Engineered a responsive, high-performance web platform featuring a smooth scroll-controlled canvas image sequence, glassmorphism UI panels, and multi-language support (English/French). Built interactive shipment tracking demos, network route visualizations, and inquiry workflows.",
+        impact: "Delivered a visually arresting, conversion-focused enterprise presence that elevates brand authority in global procurement and freight logistics with fluid interactive storytelling."
+    },
+    {
         title: "SWITCH Architecture Portfolio",
         liveLink: "https://switch-architect.vercel.app/",
         techStack: [

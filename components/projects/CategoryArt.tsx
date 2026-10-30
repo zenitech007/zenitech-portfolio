@@ -231,6 +231,105 @@ function EcommerceArt({ accent, animate }: ArtProps) {
   );
 }
 
+/* ── E-Commerce (variant 1): global freight & cargo logistics in transit ── */
+function FreightLogisticsArt({ accent, animate }: ArtProps) {
+  return (
+    <svg viewBox="0 0 220 130" className="h-full w-full" preserveAspectRatio="xMidYMid meet">
+      {/* Curved global transit route */}
+      <motion.path
+        d="M 28 88 Q 110 32 192 68"
+        fill="none"
+        stroke={accent}
+        strokeWidth={1.5}
+        strokeDasharray="4 6"
+        strokeOpacity={0.45}
+        animate={animate ? { strokeDashoffset: [0, -20] } : undefined}
+        transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+      />
+      {/* Waypoint nodes */}
+      <circle cx={28} cy={88} r={3} fill={accent} />
+      <circle cx={192} cy={68} r={3.5} fill={accent} />
+      <motion.circle
+        cx={192}
+        cy={68}
+        r={7}
+        fill="none"
+        stroke={accent}
+        strokeWidth={1}
+        animate={animate ? { scale: [1, 1.8, 1], opacity: [0.8, 0, 0.8] } : undefined}
+        transition={{ duration: 2, repeat: Infinity, ease: 'easeOut' }}
+      />
+
+      {/* Isometric Shipping Container / Cargo Unit */}
+      <motion.g
+        animate={animate ? { y: [0, -5, 0] } : undefined}
+        transition={{ duration: 3.4, repeat: Infinity, ease: 'easeInOut' }}
+      >
+        {/* Top face */}
+        <polygon
+          points="108,34 154,52 110,68 64,50"
+          fill="#130e24"
+          stroke={accent}
+          strokeWidth={1.5}
+          strokeLinejoin="round"
+        />
+        {/* Left / front-left face */}
+        <polygon
+          points="64,50 110,68 110,102 64,84"
+          fill={accent}
+          fillOpacity={0.18}
+          stroke={accent}
+          strokeWidth={1.5}
+          strokeLinejoin="round"
+        />
+        {/* Right / front-right face */}
+        <polygon
+          points="110,68 154,52 154,86 110,102"
+          fill={accent}
+          fillOpacity={0.28}
+          stroke={accent}
+          strokeWidth={1.5}
+          strokeLinejoin="round"
+        />
+        {/* Ribbed container ridges on left face */}
+        <line x1={76} y1={55} x2={76} y2={88} stroke={accent} strokeWidth={1} strokeOpacity={0.6} />
+        <line x1={87} y1={59} x2={87} y2={93} stroke={accent} strokeWidth={1} strokeOpacity={0.6} />
+        <line x1={98} y1={63} x2={98} y2={97} stroke={accent} strokeWidth={1} strokeOpacity={0.6} />
+        {/* Ribbed ridges on right face */}
+        <line x1={121} y1={64} x2={121} y2={98} stroke={accent} strokeWidth={1} strokeOpacity={0.6} />
+        <line x1={132} y1={60} x2={132} y2={94} stroke={accent} strokeWidth={1} strokeOpacity={0.6} />
+        <line x1={143} y1={56} x2={143} y2={90} stroke={accent} strokeWidth={1} strokeOpacity={0.6} />
+        {/* Sparkle beacon on corner */}
+        <g transform="translate(110 68)">
+          <motion.path
+            d={SPARKLE}
+            fill="#fff"
+            transform="scale(1.8)"
+            animate={animate ? { opacity: [0.4, 1, 0.4], rotate: [0, 90, 0] } : undefined}
+            transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
+          />
+        </g>
+      </motion.g>
+
+      {/* Decorative stars */}
+      {[
+        [36, 42],
+        [182, 34],
+        [176, 108],
+      ].map(([x, y], i) => (
+        <g key={i} transform={`translate(${x} ${y})`}>
+          <motion.path
+            d={SPARKLE}
+            fill={accent}
+            animate={animate ? { scale: [0.5, 1.2, 0.5], opacity: [0.2, 1, 0.2] } : undefined}
+            transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut', delay: i * 0.6 }}
+          />
+        </g>
+      ))}
+    </svg>
+  );
+}
+
 /* ── Platforms: layered browser windows drifting, with a cursor ── */
 function PlatformArt({ accent, animate }: ArtProps) {
   const windows = [
@@ -437,7 +536,8 @@ export default function CategoryArt({
       <div className="absolute inset-x-6 bottom-14 top-11 transition-transform duration-500 ease-out group-hover:scale-110">
         {category === 'ai' && variant === 0 && <AiArt accent={accent} animate={animate} />}
         {category === 'ai' && variant === 1 && <FlashcardsArt accent={accent} animate={animate} />}
-        {category === 'ecommerce' && <EcommerceArt accent={accent} animate={animate} />}
+        {category === 'ecommerce' && variant === 0 && <EcommerceArt accent={accent} animate={animate} />}
+        {category === 'ecommerce' && variant === 1 && <FreightLogisticsArt accent={accent} animate={animate} />}
         {category === 'platform' && <PlatformArt accent={accent} animate={animate} />}
         {category === 'tools' && <ToolsArt accent={accent} animate={animate} variant={variant} />}
       </div>
