@@ -1,5 +1,17 @@
 export const projects = [
     {
+        title: "GAPOSA — Gateway ICT Polytechnic",
+        liveLink: "https://gaposa-fawn.vercel.app/",
+        techStack: [
+            "Education Platform",
+            "Programme Directory",
+            "Admissions UX"
+        ],
+        challenge: "Prospective students need a clear way to explore ND and HND programmes, understand entry requirements, and find admissions and student services information.",
+        solution: "Built a polytechnic website bringing together a filterable programme directory, admissions guidance, student portal links, campus information, alumni stories, and news.",
+        impact: "Provides a central destination for exploring Gateway ICT Polytechnic Saapade and planning the next steps toward an application."
+    },
+    {
         title: "ProjectMate - AI Academic Assistant",
         liveLink: "https://projectmate-485110.web.app/",
         techStack: [

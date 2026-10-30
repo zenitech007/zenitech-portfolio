@@ -43,6 +43,16 @@ export const featuredProjects: readonly FeaturedProject[] = [
   },
   {
     index: '02',
+    slug: 'gaposa',
+    title: 'GAPOSA',
+    subtitle: 'Polytechnic Website & Programme Directory',
+    category: 'platform',
+    artVariant: 1,
+    tags: ['Education', 'Programme Directory', 'Admissions UX'],
+    liveUrl: 'https://gaposa-fawn.vercel.app/',
+  },
+  {
+    index: '03',
     slug: 'echopix',
     title: 'ECHOPIX',
     subtitle: 'AI Study Deck & Flashcard Generator',
@@ -52,7 +62,7 @@ export const featuredProjects: readonly FeaturedProject[] = [
     liveUrl: 'https://echopix.vercel.app/',
   },
   {
-    index: '03',
+    index: '04',
     slug: 'aura-skincare',
     title: 'AURA SKINCARE',
     subtitle: 'Luxury E-Commerce Storefront',
@@ -61,7 +71,7 @@ export const featuredProjects: readonly FeaturedProject[] = [
     liveUrl: 'https://skincare-landing-seven.vercel.app/',
   },
   {
-    index: '04',
+    index: '05',
     slug: 'cable-logistics',
     title: 'CABLE LOGISTICS',
     subtitle: 'Global Freight & Procurement',
@@ -71,7 +81,7 @@ export const featuredProjects: readonly FeaturedProject[] = [
     liveUrl: 'https://cable-logistics.vercel.app/',
   },
   {
-    index: '05',
+    index: '06',
     slug: 'switch-architecture',
     title: 'SWITCH ARCHITECTURE',
     subtitle: 'Engineering Portfolio & Blog Engine',
@@ -80,7 +90,7 @@ export const featuredProjects: readonly FeaturedProject[] = [
     liveUrl: 'https://switch-architect.vercel.app/',
   },
   {
-    index: '06',
+    index: '07',
     slug: 'safe-convert',
     title: 'SAFE CONVERT',
     subtitle: 'Privacy-First Image Converter',
@@ -89,7 +99,7 @@ export const featuredProjects: readonly FeaturedProject[] = [
     liveUrl: 'https://safe-convert-seven.vercel.app',
   },
   {
-    index: '07',
+    index: '08',
     slug: 'social-ui-template',
     title: 'SOCIAL-UI TEMPLATE',
     subtitle: 'Social-Style Portfolio with a 3D Scene',
